@@ -13,6 +13,7 @@
 
 | 位置 | 内容 | 节奏 |
 |---|---|---|
+| [**网页版**](https://momentnexus-jpg.github.io/Job720/) | **看这一份**：同一批篇目排成网页 —— github.com 上的 `.html` 只会显示源码 | 每天一篇 |
 | [`daily/`](daily/) | **岗位观察**：今天整个库动了什么 —— 新挂多少、撤了多少、哪几家动得最凶 | 每天一篇 |
 
 **每天那篇怎么读**
@@ -53,6 +54,7 @@ storage roles, laid out by day, city and company so they can be scanned at a gla
 
 | Path | What | Cadence |
 |---|---|---|
+| [**Web version**](https://momentnexus-jpg.github.io/Job720/) | **Read this one** — the same pieces as web pages; GitHub shows `.html` in this repo as source code only | daily |
 | [`daily/`](daily/) | **Hiring readout** — what moved across the index today: new postings, retirements, which companies moved most | daily |
 
 **How to read it.** Every figure carries its source and its window, and we state no verdicts.
