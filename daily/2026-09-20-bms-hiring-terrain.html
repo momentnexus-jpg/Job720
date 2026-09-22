@@ -1,0 +1,1715 @@
+<!-- <Job720Web.ObservationHTML.standalone> lib/job720_web/controllers/observation_html/standalone.html.heex:1 (job720) -->
+<!DOCTYPE html>
+<html data-phx-loc="22" lang="zh-CN">
+  <head data-phx-loc="23">
+    <meta data-phx-loc="24" charset="utf-8">
+    <meta data-phx-loc="25" name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+    <title data-phx-loc="30">107 座城市里的「BMS」岗：一共 884 个，最集中的是深圳 · 岗位观察</title>
+    <meta data-phx-loc="31" name="description" content="我们数了 84 家企业挂出的 884 个「BMS」在招岗，看它们落在哪 107 座城市。">
+
+    <link data-phx-loc="37" rel="canonical" href="https://job720.goxba.com/observe/bms-hiring-terrain">
+    <meta data-phx-loc="38" name="robots" content="index,follow">
+    <meta data-phx-loc="39" property="og:type" content="article">
+    <meta data-phx-loc="40" property="og:site_name" content="悦影悦靓人工智能科技（惠州）有限公司">
+    <meta data-phx-loc="41" property="og:title" content="107 座城市里的「BMS」岗：一共 884 个，最集中的是深圳">
+    <meta data-phx-loc="42" property="og:description" content="我们数了 84 家企业挂出的 884 个「BMS」在招岗，看它们落在哪 107 座城市。">
+    <meta data-phx-loc="43" property="og:url" content="https://job720.goxba.com/observe/bms-hiring-terrain">
+    <meta data-phx-loc="44" property="og:image" content="https://job720.goxba.com/images/og.png">
+    <meta data-phx-loc="45" name="twitter:card" content="summary_large_image">
+
+
+      <link data-phx-loc="51" rel="alternate" type="text/markdown" href="2026-09-20-bms-hiring-terrain.md">
+
+    <style>      /* ── 设计 token（2026-09-15 引入）─────────────────────────────
+         起因：客户反馈"UI 很 low"。盘点下来不是审美问题，是**缺刻度** ——
+         全站字号有 11 种值（12px 用了 55 次、13px 36 次、14px 22 次…）、圆角 8 种，
+         其中 12/13/14/15px 混用 132 处：大小几乎无差别，于是"分不清层级"，
+         整体就显得不成套。
+         所以这里定死刻度 —— **以后写样式先来这里挑，别再手填数值**。
+         色调保持现状（--fg/--dim/--line/--bg/--chip 不动），这次只统一刻度。 */
+      :root {
+        color-scheme: light dark;
+        --fg: #16181d; --dim: #6b7280; --line: #e5e7eb; --bg: #fff; --chip: #f3f4f6;
+        /* 次级正文：介于 --fg 与 --dim 之间。卡片事实行（公司/城市/经验/学历）用它 ——
+           比 --dim 实、比 --fg 轻，一眼能看出"这是正文级信息，但不是标题" */
+        --fg-2: #4b5563;
+        /* ── 字号五档 = **苹果官网实测值的子集**（2026-09-22）─────────────
+           用户的原话是「我叫你按照苹果的来」。所以这里**不自己造档位**，
+           五个值全部取自 apple.com.cn 的 computed style 实测：
+
+             apple.com.cn 全站字号（12 种，按出现次数）：
+               12px ×246（.globalnav-link 导航）· 24px ×63（.globalnav-submenu）
+               17px ×19（body 基准，body 实测就是 17px）· 14px ×16（footnote）
+               21px ×16（.tile-subhead）· 40px ×10 · 28px ×4 · 56px ×2（.tile-headline）
+               34px ×1（h1）· 19px/10px/25.5px 各 1–2 次
+
+           ⇒ 我们取其中**有对应职级**的五档，每个都标了苹果那边的出处：
+             --t-cap  12  ← .globalnav-link（苹果连导航都用 12，这是它的"最小常规字"）
+             --t-sm   14  ← footnote
+             --t-md   17  ← **body 基准**（苹果整站正文就是 17px，不是 15）
+             --t-lg   21  ← .tile-subhead（卡片区小标题）
+             --t-xl   34  ← h1（苹果的页面级标题）
+           ⛔ 不要再往中间插 13/15/16/18/20/22 —— 苹果没用这些值，插进去就又变成"自己发挥"。
+
+           ⚠️ 只照搬**字号**，行高不照搬：苹果 body 行高 25px/17px ≈ 1.47，那是给
+           "一行一句"的营销文案用的；我们列表一行里有标题+公司+标签，中文方块字再压到
+           1.47 会黏成一片，所以 body 维持 1.7（中文排版惯例 1.6–1.8）。 */
+        --t-cap: 12px;   /* 苹果 .globalnav-link：元信息、计数、脚注 */
+        --t-sm: 14px;    /* 苹果 footnote：次要正文、说明、标签药丸 */
+        --t-md: 17px;    /* 苹果 body 基准：正文、列表项、卡片标题 */
+        --t-lg: 21px;    /* 苹果 .tile-subhead：区块小标题 */
+        --t-xl: 34px;    /* 苹果 h1：页面主标题 */
+        /* 圆角三档 */
+        --r-sm: 8px;     /* 小元素：标签、内嵌块 */
+        --r-md: 12px;    /* 卡片、按钮、输入框 */
+        --r-pill: 999px; /* 胶囊：标签、徽章、筛选 chip */
+        /* 行高三档：原先散着 1.1/1.4/1.7/1.75/1.8/1.9/2 七种，
+           而 1.7 与 1.75、1.8 与 1.9 的差别肉眼看不出来 —— 又一处"不成套"。 */
+        --lh-tight: 1.3; /* 标题、单行数字 */
+        --lh-base: 1.7;  /* 正文、列表项、摘要 */
+        --lh-loose: 1.9; /* 长说明、要读的段落 */
+      }
+      @media (prefers-color-scheme: dark) {
+        :root { --fg: #e8eaed; --dim: #9aa0a6; --line: #2a2d33; --bg: #16181d; --chip: #23262c;
+          --fg-2: #c3c8ce; }
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--fg);
+        /* 17px 是苹果 body 的实测值（见上面 token 的说明）；行高用 1.7 而非苹果的 1.47 */
+        font: 17px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+      .wrap { max-width: 780px; margin: 0 auto; padding: 20px 16px 64px; }
+      /* ── 宽屏下的**默认**内容宽（2026-09-22 从 `.wide` 提升上来）──────────
+         原先只有挂了 `.wide` 的页面在宽屏下变宽 ⇒ 前台 14 个页面是 1360，
+         而后台（`/admin/*`、`/fin/*`、`/bots`、`/observe` 后台）**30 个页面还是 780** ——
+         用户切到后台那一屏直接问"后台对吗？和其他页面协调吗？"。
+         现在宽度是 `.wrap` 的默认行为，`.wide` 退化成同义词（保留只为不惊动已有模板）。
+         ⚠️ `.narrow`（420）**故意例外**：那是登录/表单页，窄是设计不是遗漏。
+         ⚠️ 必须写在 `.wrap` 定义**之后** —— 同特异性下靠后者生效（这坑今天踩过两次）。 */
+      /* ⚠️ 用 `clamp()` 做**连续**收缩，不要写两个断点（1180 / 1360）——
+         断点的问题是**在 1600px 那一点上突然跳 180px**，用户（和任何人）都预测不了
+         "我这台屏会落在哪一档"。clamp 让宽度随视口**线性**变化：
+           1024 → 1080(下限，此时靠 max-width 顶不满也不会溢出)
+           1280 → 1126    1440 → 1267    1600 → 1360(上限，之后恒定)
+         并且**上限必须有**：正文一行超过 ~80 字就没法读了，2560 的屏铺满更是灾难。 */
+      /* ⚠️ 不要给 clamp 一个"大于小屏"的下限（我先写过 `clamp(1080px, 88vw, 1360px)`）：
+         1024 / 1100 这类屏宽**比下限还小**时，max-width 顶到屏宽 ⇒ 内容**撑满、左右边距 0**，
+         而更窄的 900 屏反而是 780 居中 —— 实测出的怪相是「屏幕越大越贴边」。
+         改成 `min(1360px, 88vw)`：下限由视口自己决定，任何宽度都留出 12% 的边距。
+         门槛放在 900px：此时 88vw=792，与 899 屏的 780 几乎接上，看不出断点。
+         上限 1360 必须有 —— 正文一行超过约 80 字就没法读，2560 的屏铺满更是灾难。 */
+      @media (min-width: 900px) {
+        .wrap:not(.narrow) { max-width: min(1360px, 88vw); }
+      }
+      .head h1 { font-size: var(--t-xl); margin: 0 0 6px; }
+      .meta { margin: 0; color: var(--dim); font-size: var(--t-sm); }
+      .meta.dim { margin-top: 4px; font-size: var(--t-cap); }
+      .sep { margin: 0 6px; }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+      .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--r-pill);
+        background: var(--chip); color: var(--fg); text-decoration: none; font-size: var(--t-sm); white-space: nowrap; }
+      .chip em { font-style: normal; color: var(--dim); font-size: var(--t-cap); }
+      .chip.on { background: #2563eb; color: #fff; }
+      .chip.on em { color: #cfe0ff; }
+      /* 选了某一档后的下钻行：光给"汽车 17384"对用户没用，得能接着看到是哪几家公司 */
+      .drill { margin: -8px 0 16px; font-size: var(--t-sm); color: var(--dim); line-height: var(--lh-base); }
+      .drill b { color: var(--fg); }
+      .drill a { color: #2563eb; text-decoration: none; margin-right: 10px; white-space: nowrap; }
+      .drill a:hover { text-decoration: underline; }
+      .drill .drillall { margin-right: 0; font-weight: 600; }
+      .cities .chip { font-size: var(--t-cap); padding: 6px 10px; }
+      .summary { color: var(--dim); font-size: var(--t-sm); margin: 4px 0 12px; min-height: 20px; }
+      .summary .on { background: var(--chip); border-radius: var(--r-sm); padding: 1px 6px; margin-right: 6px; color: var(--fg); }
+      .jobs { list-style: none; margin: 0; padding: 0; }
+      .jobs li { border-top: 1px solid var(--line); padding: 16px 0; }
+      /* 标题放到 --t-lg（17px）：卡片的"主角"要跟下面那堆 12/13px 的标签拉开落差，
+         否则标题、公司、标签、元信息挤在同一个视觉重量上，扫读时没有落点。 */
+      .jobs .title { display: block; font-size: var(--t-lg); font-weight: 600; color: var(--fg);
+        text-decoration: none; margin-bottom: 6px; }
+      .jobs .title:hover { color: #2563eb; }
+      /* ── 首页「选兴趣」与「为你挑的」──
+         同一块位置的两种状态：没选过 → 引导条（.pickbox）；选过 → 推荐栏（.foryou）。
+         刻意做成"列表上方的一张窄卡片"而不是整屏改写：下面的列表排序一点没动，
+         用户想直接翻岗位时视线也不会被挡住。 */
+      .pickbox, .foryou { border: 1px solid var(--line); border-radius: var(--r-md);
+        margin: 16px 0; padding: 14px 16px; }
+      .pickbox { padding-bottom: 12px; }
+      .pick-t { margin: 0 0 10px; font-size: var(--t-md); font-weight: 600; }
+      .pick-chips { margin: 0 0 10px; }
+      .pick-hint { margin: 0; color: var(--dim); font-size: var(--t-cap); line-height: var(--lh-base); }
+      .foryou { padding-bottom: 2px; }
+      .fy-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+      .fy-t { font-size: var(--t-md); }
+      .fy-dirs { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+      /* 已选方向：能点的（点一下取消）——所以按视觉语言给可点样式，
+         但不能长得像主筛选 chip（那是 .chip.on 的蓝色实底），这里用淡底 + hover 变蓝 */
+      .fy-dirs .dir { background: var(--chip); color: var(--fg); text-decoration: none;
+        border-radius: var(--r-pill); padding: 2px 10px; font-size: var(--t-cap); white-space: nowrap; }
+      .fy-dirs .dir:hover { color: #2563eb; }
+      .fy-jobs .title { font-size: var(--t-md); }
+      .fy-jobs li:first-child { border-top: 0; }
+      /* 推荐理由：用 --fg-2（正文级）而不是蓝色 —— 蓝色在这套视觉语言里专指"能点的链接" */
+      .fy-why { margin: 0; color: var(--fg-2); font-size: var(--t-cap); line-height: var(--lh-base); }
+      .fy-more { margin: 0 0 14px; color: var(--dim); font-size: var(--t-cap); line-height: var(--lh-base); }
+      .tags { margin: 0 0 6px; display: flex; flex-wrap: wrap; gap: 6px; font-size: var(--t-cap); color: var(--dim); }
+      /* ⚠️ 视觉语言（别再混）：**彩色/描边/带下划线的都是能点的链接；普通灰字是"事实"**。
+         以前所有 span 都带灰色药丸底，和链接长得差不多 —— 用户点了没反应（2026-09-14 报过）。
+         需要强调的状态标签用 .badge（它是状态，不是按钮）。 */
+      .tags span { color: var(--dim); }
+      .tags a { color: #2563eb; text-decoration: none; }
+      .tags .co { color: var(--fg); font-weight: 600; }
+      .tags .badge, .tags .gone { background: var(--chip); border-radius: var(--r-sm); padding: 1px 6px; }
+      .sum { margin: 0 0 6px; font-size: var(--t-sm); color: var(--dim);
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      /* 允许换行写进基类：「少看」「原文」现在确实在这一行里（以前被 <p> 解析器挤出去了），
+         类目最多到 6 项，窄屏放不下时会横向溢出列表。wrap 从构造上排除这件事。 */
+      .foot { margin: 0; font-size: var(--t-cap); color: var(--dim); display: flex; gap: 10px;
+        flex-wrap: wrap; row-gap: 4px; }
+      /* ── 桌面端卡片阵列（≥1024 才生效，手机端仍是单列行）──
+         起因：780px 单列铺在宽屏上，1200 的屏两侧各空 210px（量过）。
+         宽度只在带 .wide 的页面上放开 —— 默认 .wrap 不动，JD 阅读页/收藏/后台照旧。
+         视觉语言复用沉浸卡片那套（圆角 + 细边框），不再用 border-top 分隔线。 */
+      @media (min-width: 1024px) {
+        /* ⚠️ `.wrap.wide` 的宽度**故意不在这里写** —— 写了它会盖掉上面那条 clamp
+           （同特异性、靠后者生效），宽屏就退回"跳档"。宽度只由 `.wrap:not(.narrow)` 一处定义。 */
+        .wrap.wide .jobs { display: grid;
+          /* ⚠️ `auto-fit` 不是 `auto-fill`：项数少于列数时，`auto-fill` 保留空轨道，
+             卡片挤在左边、右边空一块（/explore 就是这么被用户抓到的）。 */
+          grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; }
+        .wrap.wide .jobs li { display: flex; flex-direction: column;
+          border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px;
+          transition: border-color .12s ease-out, box-shadow .12s ease-out; }
+        /* 三个入口卡并成一行：它们原本各自横跨整行，文字靠左、箭头飘到 1100px 外 */
+        .wrap.wide .entryrow { display: grid; gap: 12px; margin: 16px 0 0;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .wrap.wide .entryrow .deckentry { margin: 0; }
+        /* 页脚沉底：同行卡片摘要行数不同，基线靠 mt:auto 对齐，不然底部参差不齐 */
+        .wrap.wide .jobs .foot { margin-top: auto; padding-top: 10px; }
+        /* ── 宽屏双列（2026-09-22）──────────────────────────────
+           起因：这一版之前只有**首页**带 .wide，其余页面在宽屏上一律锁死 780px
+           （实测 1920 下两侧各空 570px，/exam 被拉成 15135px 长的窄带 ≈19 屏）。
+           而把 780 单列直接铺进 1180 只会更糟 —— 「左标题……右数字」被撑成相距
+           700px 的两个孤立元素（/hot 榜单实测），比窄屏更难读。
+           所以宽屏下这些"一行一条"的长列表**并排两列**，行宽回到接近窄屏的密度。
+           ⚠️ 不要包含 `.cols`（公司目录是 auto-fill 多列栅格，两列反而变差）
+           与 `.jobs`（有自己的 auto-fill 卡片栅格）、`.teams`（卡片 flex-wrap，
+           本来就随宽度自动多排，压成两列反而把卡片拉长）。 */
+        .wrap.wide .examlist,
+        .wrap.wide .expolist,
+        .wrap.wide .hotlist,
+        .wrap.wide .unilist,
+        .wrap.wide .linklist,
+        .wrap.wide .tlist,
+        .wrap.wide .obs-list,
+        .wrap.wide .srch-list,
+        .wrap.wide .mecards,
+        .wrap.wide .follows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+          column-gap: 32px; align-content: start; }
+        /* 两列之后 "第一行" 变成前两个 li —— 只给 :first-child 会让右列顶上缺一根线，
+           两列的分隔线对不齐是肉眼一眼能看出来的（所以用 -n+2 补齐）。 */
+        .wrap.wide .hotlist li:nth-child(-n + 2),
+        .wrap.wide .unilist li:nth-child(-n + 2),
+        .wrap.wide .follows li:nth-child(-n + 2) { border-top: 1px solid var(--line); }
+        /* /university 的分组是**小标题 + 标签云**（一个专业一行学校胶囊），
+           单列铺进 1360 会让每行胶囊只占左边三分之一、右边全空（实测）。 */
+        .wrap.wide .disclist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+          column-gap: 32px; align-content: start; }
+        .wrap.wide .disc:nth-child(-n + 2) { border-top: 1px solid var(--line); }
+        /* 桌面端两处窄条（搜索框 / 页底按钮行）的限宽+居中，写在下面 `.searchbox`
+           定义之后 —— 那几条各自带 `margin:` 简写，同特异性靠后者生效，写在这里会被重置。 */
+        /* ── 阅读型页面的**正文列**（2026-09-22）─────────────────────────
+           适用于 JD 正文（`.jdw`）与「关于 / 文章 / 软文单篇」（`.readw`）：
+           它们的正文不能横跨 1360 —— 一行六十几个字就没法读了。
+           ⚠️ 但**容器必须跟全站一致**：先前这几页整块锁在 780，于是切页面时
+           导航、页脚、内容左边线全都跟着跳，用户的原话是"不同的页面，你不觉得
+           怪异吗？格式你就不能统一吗？"。所以：外框走 `.wrap.wide` 那套，
+           只把里面的**内容列**收窄并居中。 */
+        .wrap.jdw > *,
+        .wrap.readw > * { max-width: 820px; margin-left: auto; margin-right: auto; }
+      }
+      /* ⚠️ 原先这里还有一档 `@media (min-width:1600px) { .wrap.wide { max-width:1360px } }` ——
+         已删：宽度现在只有 `.wrap:not(.narrow)` 那一条 clamp 定义（一处改、全站生效）。 */
+      @media (min-width: 1024px) and (hover: hover) {
+        .wrap.wide .jobs li:hover { border-color: #2563eb59; box-shadow: 0 4px 16px #00000012; }
+        /* 「少看」是动作、不是信息，所以鼠标设备上平时不显、悬停才露（省视觉噪声）。
+           判据用 hover:hover 而不是宽度：触屏设备没有悬停，永远显示，不能藏掉。
+           opacity 保留占位 → 不产生布局跳动；:focus-within / [open] 保证键盘和展开后仍可见。 */
+        .wrap.wide .jobs .hidemenu { opacity: 0; transition: opacity .12s ease-out; }
+        .wrap.wide .jobs li:hover .hidemenu,
+        .wrap.wide .jobs .hidemenu:focus-within,
+        .wrap.wide .jobs .hidemenu[open] { opacity: 1; }
+      }
+      .empty { color: var(--dim); padding: 24px 0; }
+      /* ── 搜索解释条（放宽 / 纠错 / 当成任一）──
+         搜索会替用户放宽或纠错，这件事必须看得见，所以做得跟「你上次来之后新增」同一个量级：
+         浅蓝底 + 左边一条实色，一眼能跟正文分开，又不至于像报错。 */
+      .searchnote { margin: 10px 0 0; padding: 9px 12px; border-radius: var(--r-md);
+        background: #2563eb0f; border: 1px solid #2563eb33; border-left: 3px solid #2563eb;
+        font-size: var(--t-sm); line-height: var(--lh-base); }
+      .searchnote b { color: #2563eb; }
+      .searchnote a { color: #2563eb; text-decoration: none; font-weight: 600; white-space: nowrap; }
+      .searchnote a:hover { text-decoration: underline; }
+      /* 「当成两类任一来看」是**可选动作**不是状态说明，所以底色更淡、不抢主提示 */
+      .searchnote.orhint { background: var(--chip); border-color: var(--line); border-left-color: var(--dim); }
+      .searchnote.orhint b { color: var(--fg); }
+      /* ── 空结果页 ──
+         原来只有一行灰字"这个筛选下没有岗位"，用户既不知道是哪个词的问题也不知道下一步点哪。
+         这里给结论 + 出口：说明白是哪个词没匹配上（或"各自有岗但组合太严"），
+         再给"只搜某个词"和"清空条件"两个一次性动作。 */
+      .emptybox { margin: 20px 0 0; padding: 16px; border: 1px solid var(--line);
+        border-radius: var(--r-md); background: var(--chip); }
+      .emptytitle { margin: 0 0 6px; font-size: var(--t-md); font-weight: 600; }
+      .emptyhint { margin: 0; color: var(--dim); font-size: var(--t-sm); line-height: var(--lh-loose); }
+      .emptyhint a { color: #2563eb; text-decoration: none; font-weight: 600; margin-right: 10px; }
+      .emptyhint a:hover { text-decoration: underline; }
+      .pager { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); font-size: var(--t-sm); }
+      .pager a { color: #2563eb; text-decoration: none; }
+      .pager .off { color: var(--dim); opacity: .5; }
+      .pager .page { color: var(--dim); font-size: var(--t-sm); }
+      .h2 { font-size: var(--t-md); margin: 24px 0 10px; }
+      .tbl { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
+      .tbl th, .tbl td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+      .tbl th { color: var(--dim); font-weight: 500; white-space: nowrap; }
+      .tbl .n { text-align: right; white-space: nowrap; }
+      /* 候选清单的「说明」列：写的是"为什么没接"，长句子要能折行、别把表撑爆 */
+      .tbl td.note { max-width: 420px; line-height: var(--lh-base); }
+      .tbl a { color: #2563eb; text-decoration: none; white-space: nowrap; }
+      .ok { color: #15803d; }
+      .warn { color: #b45309; }
+      .bad { color: #b91c1c; }
+      .dim { color: var(--dim); }
+      .small { font-size: var(--t-cap); }
+      code { background: var(--chip); border-radius: var(--r-sm); padding: 1px 6px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--t-cap); }
+      /* ── 沉浸卡片（/cards）── */
+      .deckentry { display: flex; align-items: center; gap: 10px; margin: 16px 0 0;
+        padding: 16px 16px; border: 1px solid #2563eb33; border-radius: var(--r-md);
+        background: linear-gradient(180deg, #2563eb14, #2563eb08); text-decoration: none; color: var(--fg); }
+      .deckentry-t { font-weight: 700; font-size: var(--t-md); }
+      /* min-width:0 让说明文字**收缩**而不是把箭头挤到下一行；箭头自己不许被压（flex:0 0 auto） */
+      .deckentry-s { flex: 1 1 auto; min-width: 0; color: var(--dim); font-size: var(--t-cap); }
+      .deckentry-a { flex: 0 0 auto; color: #2563eb; font-size: var(--t-lg); }
+      /* 「刷一刷」入口：与沉浸卡片同一行风格，但底色换一下以便区分"筛"和"逛" */
+      .feedentry { border-color: #7c3aed33; background: linear-gradient(180deg, #7c3aed14, #7c3aed08); }
+      .feedentry .deckentry-a { color: #7c3aed; }
+      /* 「为你挑的」入口：第三种看岗位的方式，颜色再区分一下 */
+      .matchentry { border-color: #15803d33; background: linear-gradient(180deg, #15803d14, #15803d08); }
+      .matchentry .deckentry-a { color: #15803d; }
+      .deckhead { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .deckhead .back { color: var(--dim); text-decoration: none; font-size: var(--t-sm); }
+      .deckmeta { color: var(--dim); font-size: var(--t-sm); }
+      .deckmeta b { color: var(--fg); }
+      /* 容器必须 touch-action:none，否则纵向手势会被页面滚动吃掉 */
+      .deck { position: relative; height: 420px; transition: height .18s ease-out; margin: 16px 0 0;
+        touch-action: none; user-select: none; -webkit-user-select: none; }
+      /* ⚠️ `.card` 这个类名被**两拨人**用了，原来只写了第一拨，第二拨全坏了：
+         ① 沉浸卡片（`.deck` 里那叠，必须 absolute 才能叠起来）；
+         ② 后台页与 /watch 的「一块内容」（`.wrap` 里那一排 `<section class="card">`）。
+         原来 `.card` 直接是 absolute → ② 每块都脱离文档流、互相叠在页面顶端，
+         **实测 /admin/contacts 只看得见最后一块**（页头、口径、覆盖率全被盖住）。
+         现在按「在不在 .deck 里」分开写：全局留在文档流，`deck` 后代才 absolute。
+         这一改同时修好 11 个后台模板与 /watch —— 不用去动它们的 markup。 */
+      .card { background: var(--bg); border: 1px solid var(--line);
+        border-radius: var(--r-md); box-shadow: 0 6px 20px #0000000f; overflow: hidden; }
+      /* 文档流里的那种给点内边距；deck 里的由 `.cardinner` 管，别重复加。
+         ⚠️ 排除 `.deckw`（沉浸卡片页的 .wrap 也带这个类）。 */
+      .wrap:not(.deckw) > .card { padding: 12px 14px; }
+      .deck .card { position: absolute; top: 0; left: 0; right: 0; max-height: 100%;
+        will-change: transform; }
+      .cardinner { padding: 18px 16px; overflow: hidden; }
+      .cardinner h2 { font-size: var(--t-lg); line-height: var(--lh-tight); margin: 0 0 10px; }
+      .cardinner .tags { margin: 0 0 10px; display: flex; flex-wrap: wrap; gap: 6px; font-size: var(--t-cap); color: var(--dim); }
+      /* 卡片是**零按钮**模式（全手势），标签一律是事实而不是入口 —— 所以不给药丸底 */
+      .cardinner .tags span { color: var(--dim); }
+      .cardinner .sum { margin: 0 0 10px; font-size: var(--t-sm); line-height: var(--lh-base); color: var(--dim);
+        display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      .cardinner .jd { margin: 0 0 10px; font-size: var(--t-cap); line-height: var(--lh-base); color: var(--dim);
+        display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      .cardfoot { display: flex; align-items: center; gap: 10px; margin-top: 4px;
+        font-size: var(--t-cap); color: var(--dim); }
+      .cardfoot .src { margin-left: auto; color: #2563eb; text-decoration: none; }
+      .stamp { position: absolute; top: 16px; padding: 4px 12px; border-radius: var(--r-sm);
+        font-weight: 700; font-size: var(--t-sm); opacity: 0; transition: opacity .1s; }
+      .stamp.like { right: 14px; color: #15803d; border: 2px solid #15803d; transform: rotate(12deg); }
+      .stamp.skip { left: 14px; color: #b91c1c; border: 2px solid #b91c1c; transform: rotate(-12deg); }
+      .deckhint { text-align: center; color: var(--dim); font-size: var(--t-cap); margin: 12px 0 0; min-height: 20px; }
+      .deckhint.flash { color: #2563eb; font-weight: 600; }
+      .deckdone { text-align: center; padding: 40px 0; }
+      .deckdone .btn2 { display: inline-block; margin-top: 12px; padding: 12px 18px;
+        border-radius: var(--r-md); background: #2563eb; color: #fff; text-decoration: none; font-weight: 600; }
+      /* 搜索框（普通 GET 表单，零 JS）。垂直 13px：实测 10px 时高 39px，够不到 44px 的可点底线 */
+      .search { display: flex; gap: 8px; margin: 14px 0 4px; }
+      .search input[type="search"] { flex: 1 1 auto; min-width: 0; padding: 13px 12px;
+        border: 1px solid var(--line); border-radius: var(--r-md); background: var(--bg);
+        color: var(--fg); font-size: var(--t-sm); font-family: inherit; }
+      .search button { flex: 0 0 auto; padding: 13px 18px; border: 0; border-radius: var(--r-md);
+        background: #2563eb; color: #fff; font-size: var(--t-sm); font-weight: 600;
+        font-family: inherit; cursor: pointer; }
+      /* 城市折叠（原生 details，零 JS） */
+      .more { display: inline-block; }
+      .more > summary { cursor: pointer; list-style: none; }
+      .more > summary::-webkit-details-marker { display: none; }
+      .morebox { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+      .morebox .chip { font-size: var(--t-cap); padding: 6px 10px; }
+      /* 岗位卡片页脚的"原文"次要动作 */
+      .foot .src { color: #2563eb; text-decoration: none; margin-left: auto; }
+      /* ── JD 阅读页 ── */
+      .jdw .back { margin: 0 0 10px; font-size: var(--t-sm); }
+      .jdw .back a { color: var(--dim); text-decoration: none; }
+      .jdw h1 { font-size: var(--t-lg); line-height: var(--lh-tight); margin: 0 0 10px; }
+      /* 窄屏上「已满足 N/M 条」和右边那排操作挤不下 —— 允许整体换行，
+         而不是让它们互相压扁（实测 390px 下四个操作会挤成一团）。 */
+      .jdbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center;
+        justify-content: space-between; gap: 4px 12px; flex-wrap: wrap; padding: 10px 0; margin: 6px 0 4px;
+        border-bottom: 1px solid var(--line); background: var(--bg); font-size: var(--t-sm); }
+      .jdbar b { font-size: var(--t-md); }
+      .linkbtn { background: none; border: 0; color: #2563eb; font-size: var(--t-sm);
+        padding: 4px 0; cursor: pointer; font-family: inherit; }
+      .jdsec { margin: 20px 0 0; }
+      .jdsec h2 { font-size: var(--t-sm); color: #2563eb; margin: 0 0 6px; font-weight: 600; }
+      .jdp { list-style: none; margin: 0; padding: 0; }
+      .jdp li { border-bottom: 1px dashed var(--line); }
+      .jdp label { display: flex; gap: 10px; align-items: flex-start; padding: 12px 0;
+        cursor: pointer; font-size: var(--t-sm); line-height: var(--lh-base); }
+      .jdp input[type="checkbox"] { flex: 0 0 auto; width: 18px; height: 18px; margin: 2px 0 0;
+        accent-color: #2563eb; cursor: pointer; }
+      .jdp input:checked + span { color: var(--dim); text-decoration: line-through; }
+      .jdfoot { display: flex; gap: 10px; margin: 26px 0 0; padding-top: 16px;
+        border-top: 1px solid var(--line); }
+      /* 回声：这条岗位有多少人收藏过。克制的灰字 —— 它是"顺带看见"的信息，不该抢按钮的注意力 */
+      .jdecho { margin: 20px 0 0; font-size: var(--t-sm); color: var(--dim); }
+      /* 文字用 flex 居中，别只靠上下等 padding ——
+         .jdfoot 是 align-items:stretch，无边框的按钮会被拉高，
+         多出来的高度全落在底部，文字就偏上了（实测偏 2.8px）。 */
+      .btn2 { flex: 1 1 auto; display: flex; align-items: center; justify-content: center;
+        text-align: center; white-space: nowrap; padding: 12px 16px; border-radius: var(--r-md);
+        background: #2563eb; color: #fff; text-decoration: none; font-size: var(--t-sm); font-weight: 600;
+        font-family: inherit; border: 0; cursor: pointer; }
+      .btn2.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+      .btn2.on { background: #15803d; color: #fff; }
+      /* ── 顶部一行：岗位 / 收藏 / 登录态 ── */
+      /* ⚠️ 顶部导航用 `--t-md`(15) 而不是 `--t-sm`(13)（2026-09-22 用户："顶部的字体还是这么小？"）。
+         参照：苹果官网导航 12px（英文、字形窄）、华为/小米/Boss 的导航 14px。
+         **中文字形笔画密，13px 在桌面端发虚** —— 这是"苹果那套 12px 能成立、搬中文不成立"的原因。
+         另：导航项颜色从 `--dim` 提到 `--fg-2` —— 只小不淡才算"辅助"，又小又淡就成了"没做完"。 */
+      .sitebar { display: flex; align-items: center; gap: 4px; margin: 0 0 16px;
+        padding-bottom: 10px; border-bottom: 1px solid var(--line); font-size: var(--t-md); }
+      /* ⛔ 这一条不能再省（2026-09-22 第 4 次踩同一个坑）：flex **只压缩、不换行**，
+         而中文在压缩时会**逐字断行** —— 窄窗口下"对话"会变成竖着的"对/话"，
+         "后台"变成"后/台"（用户截图里就是这样，说我"乱七八糟"）。
+         字号从 13 提到 17 之后更容易触发。**每个 flex 里的中文标签都要 nowrap**，
+         不够放就让它整体换行或收进底部栏，不许被压扁。 */
+      .stab { padding: 6px 10px; border-radius: var(--r-sm); color: var(--fg-2);
+        text-decoration: none; white-space: nowrap; flex: 0 0 auto; }
+      .sitebar .brand { flex: 0 0 auto; }
+      .stab:hover { color: var(--fg); }
+      .stab.on { color: var(--fg); background: var(--chip); font-weight: 600; }
+      .sitebar .spacer { flex: 1 1 auto; }
+      .sitebar .who { color: var(--dim); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .sitebar .logout { display: inline; margin: 0 0 0 4px; }
+      .linkbtn { background: none; border: 0; color: #2563eb; font-size: var(--t-sm);
+        padding: 4px 0; cursor: pointer; font-family: inherit; }
+      .linkbtn.danger { color: #b91c1c; }
+      /* ── 手机端底部 Tab Bar（>640px 完全不出现）──
+         起因：5 个入口挤在顶部时，flex **不换行只压缩** —— 每个 tab 被压到 33px 宽，
+         「考公日历」四个字逐字折行成 4 行（实测 h=95px、整条导航被撑到 127px）。
+         所以窄屏把主导航挪到底部拇指区，顶部只留品牌与账号。
+         带 `navitem` 的才是"要挪走"的，登录/我的留在顶部。 */
+      .tabbar { display: none; }
+      @media (max-width: 640px) {
+        .sitebar .navitem { display: none; }
+        .sitebar { justify-content: space-between; margin-bottom: 10px; }
+        .sitebar .brand { margin-right: 0; }
+        .tabbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+          background: var(--bg); border-top: 1px solid var(--line);
+          padding: 4px 0 calc(4px + env(safe-area-inset-bottom)); }
+        .tabbar .tb { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column;
+          align-items: center; gap: 2px; padding: 6px 0; text-decoration: none;
+          color: var(--dim); font-size: var(--t-cap); }
+        /* 选中态用品牌红（字标里那个 Job 红）—— 顺带让品牌色参与表达，不再只有蓝灰 */
+        .tabbar .tb.on { color: #dc2626; }
+        .tabbar .tbi { width: 22px; height: 22px; fill: none; stroke: currentColor;
+          stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+        /* 给固定栏让位：不留这一截，最后一屏内容会被压在栏底下看不见 */
+        .wrap { padding-bottom: 86px; }
+        /* ⚠️ 站脚需要同样一条让位，但它**不能写在这里** —— root 布局里 footer 是
+           「页面内容块」的兄弟，不是 `.wrap` 的后代；而 `.sitefoot` 自己的定义在
+           ⚠️ 上一句原文里那个模板占位符**不能照着写进注释** —— 它会被原样渲染进每个页面，
+           把「页面上不该出现未渲染占位符」那类全文断言打红（这正是 AGENTS.md 第 3 条硬规矩，
+           这个坑 2026-09-22 当天在注释里连踩两次：先写进注释，再在解释它的注释里又写一遍）。
+           文件**更靠后**，同特异性下靠后者生效，写在这里是无效的（实测踩过）。
+           真正的让位规则见 .sitefoot 定义之后。 */
+        /* ⚠️ **同款事故的第二处**：入口卡（沉浸卡片 / 刷一刷）在窄屏被并排挤压，
+           「刷一刷」三个字折成两行（"刷一" / "刷"）。
+           根因跟导航竖排一模一样 —— **flex 不换行、只压缩**。
+           所以这里不只是让它堆叠，还要给标题加 nowrap：以后再加入口卡也不会重犯。 */
+        .entryrow { display: block; }
+        /* ⚠️ 这里**不要**给 .deckentry 加 flex-wrap：加了之后说明文字换行会把箭头挤成
+           新的一行（实测卡片从 57px 撑到 91px、箭头掉到第二行）。
+           正确做法是让说明文字自己收缩换行（min-width:0）、标题与箭头都不许被压。 */
+        .deckentry-t { flex: 0 0 auto; white-space: nowrap; }
+        /* ⚠️ 同款事故的第三处（前两处是导航竖排、入口卡折行）——**flex 不换行只压缩**。
+           JD 页底部那一排要塞四件东西：三个按钮（.btn2 带 nowrap）加一段灰字说明，
+           挤压的结果全落在说明上：实测 390px 下它被压到只剩两个字宽、**逐字竖排**，
+           还让整行溢出 5px。修法=说明自己占满一行（它本来就是"说明"不是按钮），
+           三个按钮平分剩下一行。
+           ⚠️⚠️ **这一段注释里不许写页面上的按钮文案**：`<style>` 是渲染进**每一个**页面的，
+           而下线的 JD 页有 `refute body =~ "…"` 这种**全文**断言（jd_gone / jd_retired 测试），
+           注释里带上那个词就会把测试打红 —— 2026-09-22 就这么踩过一次。
+           要在注释里指代这些按钮，就用"三个按钮 / 灰字说明"这类**描述**。 */
+        .jdfoot { flex-wrap: wrap; }
+        /* 说明文字排到所有按钮**之后**：三个按钮才凑得齐一行（实测 390px 下
+           三枚各 112px 正好放下，说明独占一行）—— 不排到最后它就横在中间，
+           把最后一个按钮顶成单独一行、底部从 2 行涨到 3 行。 */
+        .jdfoot > span { flex: 1 1 100%; order: 1; }
+        /* ⚠️ 光 wrap 还不够：`.jdfoot .btn2 { width: 100% }` 那条（本意是让 form 里的
+           收藏按钮撑满 form）在 wrap 之后会把**每个**按钮都变成独占一行，
+           底部从"挤成一行"翻车成"竖成四行"（实测 h=205px）。按钮在这里要平分。 */
+        .jdfoot > .btn2 { width: auto; flex: 1 1 0; min-width: 0; }
+      }
+      /* ── 登录 / 注册 ── */
+      .wrap.narrow { max-width: 420px; }
+      .authform { display: flex; flex-direction: column; gap: 8px; margin: 18px 0 0; }
+      .authform .lbl { font-size: var(--t-sm); color: var(--dim); }
+      .authform input { padding: 12px; border: 1px solid var(--line); border-radius: var(--r-md);
+        background: var(--bg); color: var(--fg); font-size: var(--t-md); font-family: inherit; }
+      .authform button { padding: 13px; border: 0; border-radius: var(--r-md); background: #2563eb;
+        color: #fff; font-size: var(--t-md); font-weight: 600; font-family: inherit; cursor: pointer; }
+      .authform .notice { margin: 6px 0 0; color: var(--dim); font-size: var(--t-cap); line-height: var(--lh-base); }
+      .resend { margin: 10px 0 0; }
+      .oldlogin { margin: 24px 0 0; border-top: 1px solid var(--line); padding-top: 12px; }
+      .oldlogin > summary { cursor: pointer; color: var(--dim); font-size: var(--t-sm); list-style: none; }
+      .oldlogin > summary::-webkit-details-marker { display: none; }
+      .oldlogin > summary::before { content: "▸ "; }
+      .oldlogin[open] > summary::before { content: "▾ "; }
+      .devcode { margin: 16px 0 0; padding: 10px 12px; border: 1px dashed var(--line);
+        border-radius: var(--r-md); font-size: var(--t-sm); color: var(--dim); }
+      .devcode b { font-size: var(--t-md); letter-spacing: 2px; color: var(--fg); }
+      .alert { margin: 16px 0 0; padding: 10px 12px; border-radius: var(--r-md); font-size: var(--t-sm);
+        background: #b91c1c14; color: #b91c1c; border: 1px solid #b91c1c33; }
+      .alert.ok { background: #15803d14; color: #15803d; border-color: #15803d33; }
+      /* 内测期的开通入口（登录页）。中性面板 —— 别用 .alert，那个是错误色 */
+      .helpline { margin: 16px 0 0; padding: 10px 12px; border-radius: var(--r-md); font-size: var(--t-sm);
+        background: var(--chip); color: var(--fg); border: 1px solid var(--line); line-height: var(--lh-base); }
+      .helpline b { font-size: var(--t-md); letter-spacing: 1px; color: var(--fg); }
+      /* ── 收藏 ── */
+      .gone { background: #6b72801f; color: var(--dim); text-decoration: line-through; }
+      .jobs .title.off { color: var(--dim); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .foot .inline { display: inline; margin: 0; }
+      .likedtag { background: #15803d1f; color: #15803d; font-weight: 600; }
+      /* 收藏页按公司分组：组标题 + 「本周新增」的动静提示 */
+      .likegroup { margin: 24px 0 0; }
+      .likegroup .h2 { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+      .likegroup .h2 a { color: var(--fg); text-decoration: none; }
+      .likegroup .h2 a:hover { color: #2563eb; }
+      .likegroup .moved { font-size: var(--t-cap); font-weight: 600; color: #15803d;
+        background: #15803d14; border: 1px solid #15803d33; border-radius: var(--r-pill);
+        padding: 1px 10px; text-decoration: none; }
+      .likegroup .jobs li:first-child { border-top: 0; }
+      /* ── 「我的」：三份名单共用 Tab 条 + 首页卡片 ── */
+      .mytabs { display: flex; gap: 4px; margin: 0 0 16px; border-bottom: 1px solid var(--line);
+        overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+      .mytab { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px;
+        padding: 8px 12px; font-size: var(--t-sm); color: var(--dim); text-decoration: none;
+        border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+      .mytab.on { color: #2563eb; border-bottom-color: #2563eb; font-weight: 600; }
+      .mytab em { font-style: normal; font-size: var(--t-cap); color: var(--dim); background: var(--chip);
+        border-radius: var(--r-pill); padding: 0 6px; }
+      .mecards { list-style: none; margin: 16px 0 0; padding: 0; display: flex;
+        flex-direction: column; gap: 10px; }
+      .mecards a { display: block; padding: 16px 16px; border: 1px solid var(--line);
+        border-radius: var(--r-md); text-decoration: none; color: var(--fg); }
+      .mecards a:hover { border-color: #2563eb; }
+      .mecards li.news a { border-color: #15803d55; background: linear-gradient(180deg, #15803d0f, transparent); }
+      .metitle { display: block; font-size: var(--t-md); font-weight: 600; margin-bottom: 4px; }
+      .metitle b { font-size: var(--t-lg); color: #2563eb; }
+      .metitle em { font-style: normal; font-size: var(--t-cap); color: var(--dim); font-weight: 400; }
+      .medesc { display: block; font-size: var(--t-cap); color: var(--dim); line-height: var(--lh-base); }
+      .medesc b { color: var(--fg); }
+      .menews { color: #15803d; font-weight: 600; }
+      .mego { display: block; margin-top: 8px; font-size: var(--t-cap); color: #2563eb; }
+      /* ── 投递跟踪 ── */
+      .appcounts { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+      .appcount { display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 12px;
+        border-radius: var(--r-pill); background: var(--chip); font-size: var(--t-cap); color: var(--dim); }
+      .appcount b { font-size: var(--t-md); color: var(--fg); }
+      .appgroup { margin: 24px 0 0; }
+      .appgroup .h2 { display: flex; align-items: baseline; gap: 10px; }
+      .applist .foot { flex-wrap: wrap; align-items: center; }
+      .appform { display: inline-flex; align-items: center; gap: 6px; margin: 0; }
+      .appselect { padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--r-sm);
+        background: var(--bg); color: var(--fg); font-size: var(--t-cap); font-family: inherit; }
+      .approw { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        margin: 16px 0 0; padding: 12px; border: 1px solid var(--line); border-radius: var(--r-md);
+        background: var(--chip); }
+      .appnow { font-size: var(--t-sm); }
+      /* ── 岗位对比 ── */
+      .cmpbox { display: inline-flex; align-items: center; gap: 4px; font-size: var(--t-cap);
+        color: var(--dim); cursor: pointer; user-select: none; }
+      .cmpbox input { accent-color: #2563eb; width: 15px; height: 15px; margin: 0; cursor: pointer; }
+      .cmpbar { position: sticky; bottom: 0; z-index: 6; display: flex; align-items: center;
+        gap: 10px; flex-wrap: wrap; margin: 16px 0 0; padding: 10px 12px;
+        border: 1px solid #2563eb55; border-radius: var(--r-md); background: var(--bg); }
+      .cmpbar b { color: #2563eb; }
+      .cmpbar .btn2 { flex: 0 0 auto; margin-left: auto; padding: 10px 16px;
+        border-radius: var(--r-md); background: #2563eb; color: #fff; border: 0; font-weight: 600;
+        font-size: var(--t-sm); cursor: pointer; font-family: inherit; }
+      /* 对比表：手机上横向滚（对齐是"对比"的前提，堆成一列就没法比） */
+      .cmpscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 16px 0 0; }
+      .cmptbl { border-collapse: collapse; font-size: var(--t-sm); min-width: 100%; }
+      .cmptbl th, .cmptbl td { text-align: left; padding: 10px 12px;
+        border-bottom: 1px solid var(--line); vertical-align: top; }
+      .cmptbl thead th { font-size: var(--t-sm); font-weight: 600; border-bottom: 2px solid var(--line);
+        min-width: 150px; }
+      .cmptbl thead th a { color: var(--fg); text-decoration: none; }
+      .cmptbl thead th a:hover { color: #2563eb; }
+      .cmptbl th.lbl { color: var(--dim); font-weight: 500; white-space: nowrap;
+        min-width: 76px; position: sticky; left: 0; background: var(--bg); }
+      .cmptbl .cmpacts td { border-bottom: 0; padding-top: 16px; }
+      .cmptbl .cmpacts .btn2 { display: block; text-align: center; padding: 10px 12px;
+        border-radius: var(--r-md); background: #2563eb; color: #fff; text-decoration: none;
+        font-size: var(--t-sm); font-weight: 600; }
+      /* ── 关注（/following + 各页的关注按钮）── */
+      .followrow { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+      .followrow form { display: inline; margin: 0; }
+      .fbtn2 { padding: 10px 16px; border-radius: var(--r-pill); font-size: var(--t-sm); font-weight: 600;
+        font-family: inherit; cursor: pointer; background: var(--bg); color: var(--fg);
+        border: 1px solid var(--line); white-space: nowrap; }
+      .fbtn2.on { background: #15803d; color: #fff; border-color: #15803d; }
+      .follows { list-style: none; margin: 16px 0 0; padding: 0; }
+      .follows li { display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        padding: 16px 0; border-top: 1px solid var(--line); }
+      .follows li.news { background: linear-gradient(90deg, #15803d0f, transparent 60%);
+        border-left: 4px solid #15803d; padding-left: 10px; }
+      .follows .fmain { flex: 1 1 auto; min-width: 0; }
+      .follows .fname { font-size: var(--t-md); font-weight: 600; color: var(--fg); text-decoration: none; }
+      .follows .fname:hover { color: #2563eb; }
+      .follows .fteam { color: var(--dim); font-weight: 400; }
+      .follows .ftags { margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 6px;
+        font-size: var(--t-cap); color: var(--dim); }
+      .follows .ftags span { background: var(--chip); border-radius: var(--r-sm); padding: 1px 6px; }
+      .follows .ftags .fnews { background: #15803d1f; color: #15803d; font-weight: 600; }
+      .follows .facts { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; }
+      .follows .facts form { display: inline; margin: 0; }
+      .newsmeta { color: #15803d; font-weight: 600; }
+      /* 收藏页/关注页互相指引：这两份名单分开是设计，但用户必须知道去哪找 */
+      .crosslink { margin: 10px 0 0; font-size: var(--t-cap); color: var(--dim); line-height: var(--lh-loose); }
+      .crosslink a { color: #2563eb; text-decoration: none; }
+      .follownews { background: #15803d0f; border-color: #15803d33; }
+      .follownews b { color: #15803d; }
+      .follownews a { color: #15803d; }
+      /* ── 匹配问卷（/match）：选项做成大号可点块，手机上不用瞄准 */
+      .qform { margin: 6px 0 0; }
+      .qsec { margin: 24px 0 0; }
+      .qsec .h2 { margin: 0 0 2px; }
+      .qhint { margin: 0 0 10px; font-size: var(--t-cap); color: var(--dim); }
+      .qopts { display: flex; flex-wrap: wrap; gap: 8px; }
+      .qopt { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px;
+        border: 1px solid var(--line); border-radius: var(--r-pill); font-size: var(--t-sm);
+        cursor: pointer; user-select: none; }
+      .qopt input { accent-color: #2563eb; width: 16px; height: 16px; margin: 0; cursor: pointer; }
+      .qopt:has(input:checked) { border-color: #2563eb; background: #2563eb14; color: #2563eb;
+        font-weight: 600; }
+      .qnote { margin: 24px 0 0; padding: 10px 13px; border-radius: var(--r-md); background: var(--chip);
+        font-size: var(--t-cap); color: var(--dim); line-height: var(--lh-loose); }
+      .qcurrent { margin: 16px 0 4px; }
+      /* 「为什么给你」：推荐必须可解释，否则用户不会信 */
+      .matches .why { margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+      .matches .whylabel { font-size: var(--t-cap); color: var(--dim); }
+      .matches .whyitem { font-size: var(--t-cap); color: #15803d; background: #15803d14;
+        border-radius: var(--r-pill); padding: 2px 10px; }
+      .decklogin { color: #2563eb; text-decoration: none; margin-left: 6px; font-weight: 600; }
+      .jdfoot form { flex: 1 1 auto; display: flex; }
+      .jdfoot .btn2 { width: 100%; }
+      /* JD 阅读条右侧的两个动作（全部勾上 / 存成图） */
+      .jdacts { display: inline-flex; align-items: center; gap: 4px 12px; flex-wrap: wrap; }
+      /* 存成图的结果：长按可存相册，桌面端点链接下载 */
+      .jdshot { margin: 20px 0 0; padding: 12px; border: 1px solid var(--line); border-radius: var(--r-md);
+        background: var(--chip); }
+      .jdshot img { display: block; width: 100%; height: auto; margin-top: 8px;
+        border-radius: var(--r-sm); background: #fff; }
+      /* 分享卡的前置提示（长按保存 / 已复制）。要显眼：国产浏览器多数不支持系统分享，
+         这一句是大多数用户真正会照着做的那句，不能是灰小字。 */
+      .cardhint { margin: 10px 0 0; padding: 9px 12px; border-radius: var(--r-sm);
+        background: #eef3ff; color: #1d4ed8; font-size: var(--t-sm); }
+      /* 「整理成一段话」：把勾中的原文条目拼成可复制文本 */
+      .jpitch { margin: 20px 0 0; padding: 12px; border: 1px solid var(--line);
+        border-radius: var(--r-md); background: var(--chip); }
+      .jpitchtext { display: block; width: 100%; margin-top: 8px; padding: 10px;
+        border: 1px solid var(--line); border-radius: var(--r-md); background: var(--bg);
+        color: var(--fg); font: 14px/1.7 ui-monospace, SFMono-Regular, Menlo, monospace;
+        resize: vertical; }
+      /* 账号页 / 隐私页 */
+      .kv { display: grid; grid-template-columns: 5.5em 1fr; gap: 8px 12px; margin: 16px 0;
+        font-size: var(--t-sm); }
+      .kv dt { color: var(--dim); }
+      .kv dd { margin: 0; }
+      .kv a { color: #2563eb; text-decoration: none; }
+      .dangerbox { margin: 24px 0 0; padding: 16px 16px 16px; border: 1px solid #b91c1c33;
+        border-radius: var(--r-md); background: #b91c1c0a; }
+      .dangerbox h2 { font-size: var(--t-sm); color: #b91c1c; margin: 0 0 6px; }
+      .dangerbox form { margin-top: 10px; }
+      .checkline { display: flex; gap: 8px; align-items: flex-start; margin: 0 0 10px;
+        font-size: var(--t-sm); }
+      .checkline input { flex: 0 0 auto; width: 18px; height: 18px; margin: 2px 0 0;
+        accent-color: #b91c1c; }
+      .btn2.danger { background: #b91c1c; color: #fff; }
+      .jdp.plain li { padding: 8px 0; font-size: var(--t-sm); }
+      .jdp.plain li a { color: #2563eb; }
+      .sitebar .who { color: var(--dim); text-decoration: none;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .sitebar .who.on { color: var(--fg); background: var(--chip); border-radius: var(--r-sm); padding: 6px 10px; }
+      /* 后台页的状态标签：没采过的最显眼 */
+      .st { display: inline-block; padding: 2px 8px; border-radius: var(--r-pill); font-size: var(--t-cap);
+        white-space: nowrap; }
+      .st-ok { background: #15803d1f; color: #15803d; }
+      .st-todo { background: #b453091f; color: #b45309; font-weight: 600; }
+      .st-part { background: #2563eb1f; color: #2563eb; }
+      .st-dim { background: var(--chip); color: var(--dim); }
+      /* 巡检页（/admin/patrol）要的两档。⚠️ `unknown`（探针坏了、没有结论）**必须**
+         和 `ok` 长得不一样 —— 把这二者混为一谈正是"误报"的根源，也是这套巡检的
+         第一条契约（unknown ≠ ok）要防的事。所以给它虚线边框 + 灰底，而不是绿色。 */
+      .st-crit { background: #b91c1c1f; color: #b91c1c; font-weight: 600; }
+      .st-unknown { background: var(--chip); color: var(--dim); border: 1px dashed var(--line); }
+      /* 巡检顶部状态条：复用 .rt-status 的形状，只换左边条颜色（ok 用绿、warn 用橙、
+         crit 用红）。不加动画 —— 巡检是"结果"，不是"正在进行"。 */
+      .rt-status.rt-good { border-left-color: #16a34a; }
+      .rt-status.rt-warn { border-left-color: #d97706; background: rgba(217,119,6,.05); }
+      .rt-status.rt-bad { border-left-color: #dc2626; background: rgba(220,38,38,.05); }
+      /* 数据覆盖页的覆盖率数字：0% 单独一色 —— 它不是"低"，是这一列根本没有，
+         跟 40% 完全是两回事，混成一个"低"色会被读成"数据差一点"。 */
+      .cov { font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .cov.ok { color: #15803d; }
+      .cov.low { color: #b45309; }
+      .cov.zero { color: #b91c1c; font-weight: 600; }
+      /* 情报范围的「圈公司」：198 项要塞进固定高度里滚，不能把页面撑长。
+         每行左边勾选框、右边岗位数与赛道标签 —— 没有标签的一长串名字没法扫。 */
+      .picklist { max-height: 300px; overflow-y: auto; border: 1px solid var(--line);
+        border-radius: var(--r-sm); padding: 8px 10px; background: var(--card); }
+      .pickrow { display: grid; grid-template-columns: auto 1fr auto auto; gap: 8px;
+        align-items: center; padding: 3px 2px; font-size: var(--t-sm); }
+      .pickrow:hover { background: var(--chip); }
+      .pickrow .pname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .pickrow .pid { color: var(--dim); font-size: var(--t-cap); }
+      .pickrow .pjobs { color: var(--dim); font-variant-numeric: tabular-nums; text-align: right; }
+      .pickrow .ptrack { font-size: var(--t-cap); color: var(--dim);
+        background: var(--chip); border-radius: var(--r-pill); padding: 1px 8px; white-space: nowrap; }
+      .scopeform { background: var(--card); border: 1px solid var(--line);
+        border-radius: var(--r-sm); padding: 14px 16px; margin: 10px 0 18px; }
+      .scopeform .row2 { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end;
+        margin-top: 12px; }
+      .scopeform label { display: block; font-size: var(--t-cap); color: var(--dim); margin-bottom: 4px; }
+      .tbl td { vertical-align: top; }
+      /* ── 四个维度用 Tab 切换（一次只铺一维，避免四行 chip 把列表推走）── */
+      /* ⚠️ overflow-y 必须显式 hidden：只写 overflow-x:auto 时 overflow-y 会跟着算成 auto，
+         而 tab 的 margin-bottom:-1px + 2px 下边框正好溢出 1px —— 于是整条右边多出一根
+         灰色的竖滚动条（实测 390 宽下的确会露出来）。 */
+      .tabs { display:flex; gap:6px; margin: 16px 0 8px; border-bottom:1px solid var(--line);
+        padding-bottom: 0; overflow-x:auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+      .tabs .tab { flex:0 0 auto; padding: 8px 12px; font-size: var(--t-sm); color: var(--dim);
+        text-decoration:none; border-bottom: 2px solid transparent; margin-bottom:-1px; white-space:nowrap; }
+      .tabs .tab.on { color:#2563eb; border-bottom-color:#2563eb; font-weight:600; }
+      /* ── 新鲜度入口（今天/近一周新挂）── */
+      .fresh { display:flex; align-items:center; gap:10px; margin: 16px 0 4px; flex-wrap: wrap; }
+      .fbtn { display:flex; flex-direction:column; align-items:center; gap:2px;
+        min-width: 104px; padding: 10px 16px; border:1px solid var(--line); border-radius: var(--r-md);
+        text-decoration:none; color: var(--fg); background: var(--bg); }
+      .fbtn b { font-size: var(--t-lg); line-height: var(--lh-tight); color: #2563eb; }
+      .fbtn span { font-size: var(--t-cap); color: var(--dim); }
+      .fbtn.on { border-color: #2563eb; background: #2563eb0f; }
+      /* 「只要校招」开关：和旁边的时效按钮**不是一回事**（时效是数量、这条是类型），
+         所以刻意不做成 .fbtn 那种"大数字 + 小标签"的块，用胶囊 + 内联数字区分开。 */
+      /* 垂直内边距 11px：实测 9px 时控件高 41px，够不到 44px 的可点底线 */
+      .ftype { display:inline-flex; align-items:center; gap:6px; padding: 11px 14px;
+        border:1px solid var(--line); border-radius: var(--r-pill); background: var(--bg);
+        color: var(--fg); text-decoration:none; font-size: var(--t-sm); white-space: nowrap; }
+      .ftype em { font-style: normal; font-size: var(--t-cap); color: var(--dim);
+        font-variant-numeric: tabular-nums; }
+      .ftype:hover { border-color: #15803d; }
+      .ftype.on { border-color:#15803d; background:#15803d0f; color:#15803d; font-weight:600; }
+      .ftype.on em { color:#15803d; }
+      .fclear { margin-left:auto; font-size: var(--t-sm); color: #2563eb; text-decoration:none; white-space:nowrap; }
+      /* 全部公司目录页：多列公司清单 + 搜索框 */
+      .searchbox { display: flex; gap: 8px; align-items: center; margin: 16px 0 0; }
+      .searchbox input[type=search] { flex: 1 1 auto; max-width: 420px; padding: 10px 12px;
+        border: 1px solid var(--line); border-radius: var(--r-md); font-size: var(--t-sm); background: var(--bg); color: var(--fg); }
+      /* ── 桌面端两条"窄条"：搜索框 + 页底按钮行 ─────────────────────────
+         为什么要限宽：实测 1920 下输入框 1050px 长、页底单个按钮 1328px 长，
+         里面只装得下十来个字的 placeholder / 四五个字的按钮文案。
+         ⚠️ 限宽**必须同时居中**：只限宽不限位置，它们就贴左、右边空 600+px，
+         而页面其它块铺满 1235 —— 用户看到的原话是"PC版所有页面左右空白不对称"。
+         ⚠️ 必须写在上面那三条定义之后：`.search` / `.jdfoot` / `.searchbox`
+         各自写了 `margin:` 简写，同特异性下靠后者生效，写在前面等于没写。 */
+      @media (min-width: 900px) {
+        .search, .searchbox { max-width: 620px; margin-left: auto; margin-right: auto; }
+        .wrap.wide .jdfoot { max-width: 620px; margin-left: auto; margin-right: auto; }
+      }
+      .cols { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px;
+        /* ⚠️ 同上：`auto-fit` —— 公司目录最后一页/筛选后只剩几家时，空轨道会让它靠左 */
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+      .cols li { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px;
+        border: 1px solid var(--line); border-radius: var(--r-md); }
+      /* 后台用户页：三列数字（累计/近7天/今日）——数字要大，标签要小，一眼看增长 */
+      .cols.stats3 { grid-template-columns: repeat(3, 1fr); }
+      .cols.stats3 li { align-items: center; text-align: center; }
+      .cols.stats3 li > a { font-size: var(--t-xl); font-weight: 700; color: var(--fg);
+        text-decoration: none; line-height: var(--lh-tight); }
+      .cols.stats3 li > em { font-size: var(--t-cap); }
+      /* 兴趣分布里的小节标题（赛道 / 职能 / 公司） */
+      .h3 { font-size: var(--t-md); font-weight: 600; color: var(--dim); margin: 16px 0 2px; }
+      /* 后台「加测试账号」表单：一行三件，窄屏自动换行 */
+      .taform { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0; }
+      .taform input { padding: 9px 11px; border: 1px solid var(--line);
+        border-radius: var(--r-md); font-size: var(--t-sm); }
+      .taform input[name="phone"] { width: 150px; }
+      .taform input[name="note"] { flex: 1 1 180px; min-width: 140px; }
+      .cols li > a:first-child { color: var(--fg); font-weight: 600; text-decoration: none; }
+      .cols li > a:first-child:hover { color: #2563eb; }
+      .cols li em { color: var(--dim); font-style: normal; font-weight: 400; font-size: var(--t-cap); margin-left: 4px; }
+      .cols li a { color: #2563eb; text-decoration: none; font-size: var(--t-cap); }
+      .morebox .moreall { display: block; margin: 6px 0 0; font-size: var(--t-sm); color: #2563eb; text-decoration: none; }
+      .freshline { display:block; }
+      .freshline b { color: var(--fg); }
+      .isnew { background:#b4530914; color: #b45309; border-radius: var(--r-sm); padding:1px 6px; font-weight:600; }
+      /* ── 「标签即入口」：公司/城市/经验/学历/职能/赛道可点 ──
+         ⚠️ `.entryline` 与 `.tags` **共用**这套药丸样式：列表页卡片从 2026-09-15 起改用
+         `factline` / `entryline` 两个新类名，而 feed / cards / likes / compare / JD 页仍在用 `.tags`。
+         用**并列选择器**让两边外观一致 —— 各自复制一套样式必然漂移。
+         （`.factline` 不在这套里：它是灰字事实行，本来就不该有药丸底。） */
+      .tags a, .entryline a { text-decoration: none; }
+      .tags a:hover, .entryline a:hover { color: #2563eb; }
+      .tags a.co, .entryline a.co { color: var(--fg); font-weight: 600; }
+      .tags a.fn, .entryline a.fn { background: #2563eb14; color: #2563eb; }
+      .tags a.bucket, .entryline a.bucket { background: transparent; border: 1px solid var(--line); }
+      .isnew { text-decoration: none; }
+      /* 「挂了多久」：独家信号，只陈述事实 */
+      .listedage { color: var(--fg); }
+      /* 技能标签：与职能/赛道标签视觉区分（技能是"要什么"，职能是"干什么"） */
+      .tags a.sk, .entryline a.sk, .jdskills a.sk { background: #0f766e14; color: #0f766e;
+        border-radius: var(--r-sm); padding: 1px 6px; text-decoration: none; font-size: var(--t-cap); }
+      .tags a.sk:hover, .entryline a.sk:hover, .jdskills a.sk:hover { background: #0f766e26; }
+      /* ── 列表页卡片的「事实行 + 入口行」（2026-09-15）──
+         起因：卡片上挤了 10+ 个标签（公司/城市/部门/经验/学历/职能/技能×4/赛道），
+         全是同款药丸底 → 视觉噪音，而"这岗位要什么本事"反而被淹掉。
+         现在分两层：事实行（灰字小号；可点的仍是入口，只是弱化）＋ 入口行（保留药丸底）。 */
+      .factline { margin: 0 0 6px; display: flex; flex-wrap: wrap; align-items: baseline;
+        gap: 2px 10px; font-size: var(--t-sm); color: var(--dim); }
+      /* ⚠️ 每个词都不许拆行：中文在 flex 里会**逐字**断行，"大专"被拆成"大 / 专"
+         （实测）。要断就断在词之间（flex 的 gap 就是干这个的）。 */
+      .factline > * { white-space: nowrap; }
+      .factline a { color: var(--fg-2); text-decoration: none; }
+      .factline a:hover { color: #2563eb; }
+      /* 公司是这一行里最重要的，稍微加重；其余保持灰 */
+      .factline .co { color: var(--fg); font-weight: 500; }
+      .entryline { margin: 0 0 6px; display: flex; flex-wrap: wrap; gap: 6px;
+        font-size: var(--t-cap); }
+      .jdskills { margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+      .jdskills .sklabel { font-size: var(--t-cap); color: var(--dim); }
+      .fskills { display: flex; flex-wrap: wrap; gap: 6px; }
+      .fskills a { font-size: var(--t-sm); font-weight: 600; color: #0f766e; background: #0f766e14;
+        border-radius: var(--r-pill); padding: 4px 10px; text-decoration: none; }
+      /* 机会分布：选了方向之后"哪些城市机会多" */
+      .spread { display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+        margin: 0 0 6px; font-size: var(--t-sm); }
+      .spread .splabel { font-size: var(--t-cap); color: var(--dim); }
+      .spread a { color: var(--fg); text-decoration: none; background: var(--chip);
+        border-radius: var(--r-pill); padding: 4px 10px; }
+      .spread a:hover { color: #2563eb; }
+      .spread b { color: #2563eb; }
+      /* 导航上「今天新挂」的红点数 */
+      .stab .badge { font-style: normal; margin-left: 4px; padding: 0 6px; border-radius: var(--r-pill);
+        background: #b91c1c; color: #fff; font-size: var(--t-cap); font-weight: 700; line-height: 16px;
+        display: inline-block; vertical-align: 1px; }
+      /* 「你上次来之后新增」 */
+      .sincebar { margin: 12px 0 0; padding: 10px 12px; border-radius: var(--r-md);
+        background: #2563eb0f; border: 1px solid #2563eb33; font-size: var(--t-sm); }
+      .sincebar b { color: #2563eb; font-size: var(--t-md); }
+      .sincebar a { color: #2563eb; text-decoration: none; margin-left: 8px; font-weight: 600; }
+      /* 「已少看」提示条：必须有，否则用户不知道岗位为什么变少了 */
+      .hidebar { margin: 10px 0 0; padding: 10px 12px; border-radius: var(--r-md);
+        background: var(--chip); font-size: var(--t-cap); color: var(--dim); line-height: var(--lh-loose); }
+      .hidtag { display: inline-block; margin: 0 4px; padding: 1px 8px; border-radius: var(--r-pill);
+        background: var(--bg); border: 1px solid var(--line); color: var(--fg); }
+      .hidebar a { color: #2563eb; text-decoration: none; margin-left: 6px; font-weight: 600; }
+      /* 每行的「少看」：原生 details，零 JS */
+      .hidemenu { display: inline-block; position: relative; }
+      .hidemenu > summary { cursor: pointer; list-style: none; color: var(--dim); }
+      .hidemenu > summary::-webkit-details-marker { display: none; }
+      .hidemenu[open] > summary { color: #2563eb; }
+      .hidebox { display: block; margin-top: 6px; padding: 8px 10px; border: 1px solid var(--line);
+        border-radius: var(--r-md); background: var(--bg); line-height: var(--lh-loose); }
+      .hidebox a { display: block; color: #2563eb; text-decoration: none; white-space: nowrap; }
+      /* ── 本周热度榜 ── */
+      .hotsec { margin: 24px 0 0; }
+      .hotlist { list-style: none; margin: 0; padding: 0; counter-reset: h; }
+      .hotlist li { border-bottom: 1px solid var(--line); }
+      .hotlist li:first-child { border-top: 1px solid var(--line); }
+      .hotlist a { display: flex; align-items: baseline; gap: 10px; padding: 10px 4px;
+        text-decoration: none; color: var(--fg); }
+      .hotlist a::before { counter-increment: h; content: counter(h); flex: 0 0 1.4em;
+        color: var(--dim); font-size: var(--t-sm); font-variant-numeric: tabular-nums; }
+      .hotlist li:first-child a::before { color: #b45309; font-weight: 700; }
+      .hotlist .hname { flex: 1 1 auto; font-size: var(--t-md); }
+      .hotlist .hn { flex: 0 0 auto; color: #2563eb; font-weight: 700; font-size: var(--t-sm); }
+      /* ── 考试日历（/exam）── */
+      .examlist { list-style: none; margin: 0; padding: 0; }
+      .examlist .examitem { display: flex; align-items: baseline; gap: 10px; padding: 10px 4px;
+        border-bottom: 1px solid var(--line); }
+      .examlist .examitem:first-child { border-top: 1px solid var(--line); }
+      /* 日期用等宽数字，竖排才对得齐（与 .hotlist 的序号同一套做法） */
+      .examlist .examday { flex: 0 0 3.4em; color: var(--dim); font-size: var(--t-sm);
+        font-variant-numeric: tabular-nums; }
+      .examlist a { flex: 1 1 auto; color: var(--fg); text-decoration: none; font-size: var(--t-md); }
+      .examlist a:hover { color: #2563eb; }
+      .examlist .examregion { flex: 0 0 auto; color: var(--dim); font-size: var(--t-cap);
+        background: var(--chip); border-radius: var(--r-pill); padding: 1px 6px; }
+      /* 报名时间：唯一一处"日期比标题重要"的地方，给它一点颜色；抽不到就不画这一块 */
+      .examlist .examsignup { flex: 0 0 auto; color: #b45309; font-size: var(--t-cap);
+        background: #fef3c7; border-radius: var(--r-pill); padding: 1px 6px;
+        font-variant-numeric: tabular-nums; white-space: nowrap; }
+      /* ── 展会日历（/expo）── 行结构与上一块同构（日期|标题|标|城|区间），
+         类名分开是为了两条线各自改样式不互相牵连（与 hotlist/unilist/linklist 同理）。 */
+      .expolist { list-style: none; margin: 0; padding: 0; }
+      .expolist .expoitem { display: flex; align-items: baseline; gap: 10px; padding: 10px 4px;
+        border-bottom: 1px solid var(--line); }
+      .expolist .expoitem:first-child { border-top: 1px solid var(--line); }
+      .expolist .expoday { flex: 0 0 3.4em; color: var(--dim); font-size: var(--t-sm);
+        font-variant-numeric: tabular-nums; }
+      .expolist a { flex: 1 1 auto; color: var(--fg); text-decoration: none; font-size: var(--t-md); }
+      .expolist a:hover { color: #2563eb; }
+      /* 领域标吃行业 accent（.a-ai/.a-chip/.a-energy 就在下面行业那组里定义的） */
+      .expolist .expodom { flex: 0 0 auto; color: var(--accent, var(--dim)); font-size: var(--t-cap);
+        background: var(--chip); border-radius: var(--r-pill); padding: 1px 6px; white-space: nowrap; }
+      .expolist .expocity { flex: 0 0 auto; color: var(--dim); font-size: var(--t-cap);
+        background: var(--chip); border-radius: var(--r-pill); padding: 1px 6px; white-space: nowrap; }
+      .expolist .exporange { flex: 0 0 auto; color: #b45309; font-size: var(--t-cap);
+        background: #fef3c7; border-radius: var(--r-pill); padding: 1px 6px;
+        font-variant-numeric: tabular-nums; white-space: nowrap; }
+      /* ⛔ 手机宽度必须让药丸换行：这一行比 /exam 多一枚标（领域 + 地区 + 日期区间），
+         三个都不肯换行，标题就被挤成竖排 —— 390 屏实测标题只剩 105px（一行四个字、六行）。
+         标题独占第一行，药丸落到第二行并缩进到标题下面（与日期列对齐）。
+         覆盖规则写在被覆盖的定义之后（同特异性靠后者生效）。 */
+      @media (max-width: 640px) {
+        .expolist .expoitem { flex-wrap: wrap; row-gap: 6px; }
+        .expolist a { flex: 1 1 calc(100% - 3.4em - 10px); min-width: 0; }
+        .expolist .expodom { margin-left: calc(3.4em + 10px); }
+      }
+      /* 筛选区：默认折叠（地区一多，铺开就把列表挤出首屏），有筛选时自动展开 */
+      .filterbox { margin: 10px 0 0; }
+      .filterbox > summary { cursor: pointer; font-size: var(--t-sm); color: var(--dim);
+        padding: 6px 0; list-style: none; }
+      .filterbox > summary::-webkit-details-marker { display: none; }
+      .filterbox > summary::before { content: "▸ "; }
+      .filterbox[open] > summary::before { content: "▾ "; }
+      .filterbox .fcur { color: #2563eb; margin-left: 6px; }
+      .filterbox .chips { margin: 8px 0 0; }
+      .filterbox .meta { margin: 10px 0 0; }
+      /* ── 另一条路（/roads）── */
+      .linklist { list-style: none; margin: 8px 0 0; padding: 0; }
+      .linklist li { border-bottom: 1px solid var(--line); }
+      .linklist li:first-child { border-top: 1px solid var(--line); }
+      /* 名称一行、说明一行：外链的"这站是干什么的"比链接本身更重要，别挤成一行 */
+      .linklist a { display: flex; flex-direction: column; gap: 2px; padding: 10px 4px;
+        text-decoration: none; color: var(--fg); }
+      .linklist .lkname { font-size: var(--t-md); font-weight: 600; }
+      .linklist a:hover .lkname { color: #2563eb; }
+      .linklist .lkdesc { color: var(--dim); font-size: var(--t-cap); }
+      /* ── 大学参考（/university）── */
+      .disclist { margin: 10px 0 0; }
+      .disc { padding: 10px 0; border-bottom: 1px solid var(--line); }
+      .disc:first-child { border-top: 1px solid var(--line); }
+      .disc-name { font-size: var(--t-md); font-weight: 600; margin-bottom: 6px; }
+      .disc-schools { display: flex; flex-wrap: wrap; gap: 6px; }
+      /* 学校胶囊：这一档"谁在名单里"比顺序重要，所以并列铺开、不给序号。
+         每颗都是一条外链（直达该校官网），所以得做出可点的样子 */
+      .schip { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: var(--r-pill);
+        background: var(--chip); color: var(--fg); font-size: var(--t-sm); white-space: nowrap;
+        text-decoration: none; }
+      .schip:hover { background: #2563eb14; color: #2563eb; }
+      .unilist { list-style: none; margin: 8px 0 0; padding: 0; }
+      .unilist li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
+        padding: 10px 4px; border-bottom: 1px solid var(--line); }
+      .unilist li:first-child { border-top: 1px solid var(--line); }
+      /* 校名 = 外链，域名写在链接**里面**：手机没有 hover，看不到落点就等于没给网址 */
+      .uname { display: inline-flex; align-items: baseline; gap: 6px;
+        font-size: var(--t-md); font-weight: 600; color: var(--fg); text-decoration: none; }
+      .uname:hover, .uname:hover .uurl { color: #2563eb; }
+      .uurl { font-size: var(--t-cap); font-weight: 400; color: var(--dim); }
+      .ucity { font-size: var(--t-cap); color: var(--dim); background: var(--chip);
+        border-radius: var(--r-pill); padding: 1px 6px; }
+      /* 特色独佔一行：它是判断"这所学校强在哪"的依据，别挤在名字后面 */
+      .unote { flex: 1 1 100%; font-size: var(--t-cap); color: var(--dim); }
+      .h2n { font-style: normal; color: var(--dim); font-size: var(--t-cap); font-weight: 400; margin-left: 8px; }
+      /* Tab 底下那一行摘要：Tab 已经报了类名，这里只给条数与口径，不再重复一遍标题 */
+      .tabnote { margin: 0 0 6px; font-size: var(--t-cap); color: var(--dim);
+        line-height: var(--lh-loose); }
+      .tabnote b { color: var(--fg); font-weight: 600; }
+      /* ── 团队页 ── */
+      .teamgroup { margin: 24px 0 0; }
+      .teamgroup .h2 { display:flex; align-items:baseline; gap:10px; }
+      .teams { display:flex; flex-wrap:wrap; gap:8px; }
+      .team { display:inline-flex; align-items:center; gap:8px; padding: 10px 12px; border-radius: var(--r-md);
+        border:1px solid var(--line); text-decoration:none; color: var(--fg); font-size: var(--t-sm); }
+      .team:hover { border-color: #2563eb; }
+      .team .tname { font-weight:600; }
+      .team .tnum { color: var(--dim); font-size: var(--t-cap); background: var(--chip);
+        border-radius: var(--r-pill); padding: 1px 6px; }
+      .team .tgo { color:#2563eb; font-size: var(--t-cap); }
+      /* ── 企业卡片（/c/:key）── */
+      .cow h1 { display: flex; align-items: baseline; gap: 10px; }
+      .cow .stk { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: var(--t-sm); color: var(--dim); font-weight: 400; }
+      .cos { margin: 26px 0 0; }
+      .cos .h2 { margin: 0 0 10px; }
+      .molarge { margin: 0 0 4px; font-size: var(--t-md); }
+      .molarge b { font-size: var(--t-lg); color: #2563eb; }
+      .colabel { margin: 16px 0 0; font-size: var(--t-cap); color: var(--dim); }
+      .cos .chips { margin: 6px 0 0; }
+      .chip.out { border: 1px solid var(--line); }
+      .chip.out:hover { border-color: #2563eb; }
+      /* 不能点的标签不给药丸底（能点的才是入口，见标签即入口那条规矩）；
+         但没了底就要有分隔，否则「硕士 303 本科 7164」会读成一句话 */
+      .chip.plain { background: none; padding: 6px 0; color: var(--dim); }
+      .chip.plain + .chip.plain::before { content: "·"; margin-right: 8px; }
+      /* 招聘活跃度：一天一列（上面两根柱、下面日期+数值），纯 CSS、零 JS。
+         inline-flex 让框**贴着柱子**，否则全宽空盒子看起来像坏掉的一块；
+         攒到 20 天出头时在窄屏上会超宽 → 给横向滚动，别把页面撑破 */
+      .molarge b.up { color: #15803d; }
+      .molarge b.down { color: #b91c1c; }
+      .actbars { display: inline-flex; align-items: flex-end; gap: 10px; margin: 10px 0 6px;
+        padding: 10px 14px 8px; border: 1px solid var(--line); border-radius: var(--r-md);
+        max-width: 100%; overflow-x: auto; }
+      .actday { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; }
+      .actpair { display: inline-flex; align-items: flex-end; gap: 2px; }
+      .actday .up { width: 7px; background: #3ecf8e; border-radius: 2px 2px 0 0; }
+      .actday .down { width: 7px; background: #ff6b6b; border-radius: 2px 2px 0 0; }
+      .actday em { font-style: normal; font-size: var(--t-cap); color: var(--dim); line-height: 1.2; }
+      .actday em.actn { color: var(--fg-2); }
+      .coblank { margin: 0; padding: 16px 16px; border: 1px dashed var(--line);
+        border-radius: var(--r-md); font-size: var(--t-sm); line-height: var(--lh-base); }
+      /* 「你知道吗」：通用说明与"我们的数据"分开标，用户才知道哪句能信到什么程度 */
+      .know { margin: 18px 0 0; padding: 12px 16px; border-radius: var(--r-md);
+        background: var(--chip); font-size: var(--t-sm); line-height: var(--lh-base); }
+      .know > b { display: inline-block; margin-right: 6px; color: #2563eb; font-size: var(--t-cap);
+        border: 1px solid #2563eb55; border-radius: var(--r-pill); padding: 1px 8px; vertical-align: 1px; }
+      .know .src { display: block; margin-top: 6px; color: var(--dim); font-size: var(--t-cap); }
+      /* 「现在最缺」：本周新增最多的职能，点一下只看这类新岗 */
+      .hot { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
+      .hotlabel { font-size: var(--t-cap); color: var(--dim); }
+      .hotchip { display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 12px;
+        border-radius: var(--r-pill); background: #2563eb14; color: var(--fg);
+        text-decoration: none; font-size: var(--t-sm); font-weight: 600; }
+      .hotchip b { color: #2563eb; }
+      /* JD 页的「你知道吗」折叠块（原生 details，零 JS） */
+      .knowbox { margin: 24px 0 0; border: 1px solid var(--line); border-radius: var(--r-md);
+        background: var(--chip); }
+      .knowbox > summary { cursor: pointer; list-style: none; padding: 12px 16px;
+        font-size: var(--t-sm); font-weight: 600; color: #2563eb; }
+      .knowbox > summary::-webkit-details-marker { display: none; }
+      .knowbox > summary::before { content: "▸ "; color: var(--dim); }
+      .knowbox[open] > summary::before { content: "▾ "; }
+      .knowinner { padding: 0 16px 16px; font-size: var(--t-sm); line-height: var(--lh-base); }
+      .knowinner > p { margin: 8px 0; }
+      .knowinner .colabel { margin: 12px 0 0; font-size: var(--t-cap); color: var(--dim); }
+      .skillchip { display: inline-block; padding: 4px 10px; border-radius: var(--r-pill);
+        background: var(--bg); border: 1px solid var(--line); font-size: var(--t-cap); }
+      /* ── 竖滑刷片（/feed）：一屏一张，滚动与吸附全靠 CSS ── */
+      .feed { position: fixed; inset: 0; overflow-y: auto; overscroll-behavior-y: contain;
+        scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch; background: var(--bg); }
+      .fcard { position: relative; height: 100vh; height: 100dvh; scroll-snap-align: start;
+        scroll-snap-stop: always; display: flex; flex-direction: column;
+        border-bottom: 1px solid var(--line); }
+      .fcard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px;
+        background: var(--accent, #2563eb); }
+      .a-ai { --accent: #2563eb; --tint: #2563eb12; }
+      .a-chip { --accent: #7c3aed; --tint: #7c3aed12; }
+      .a-energy { --accent: #15803d; --tint: #15803d12; }
+      .a-other { --accent: #6b7280; --tint: #6b72800f; }
+      .fpane { flex: 1 1 auto; display: flex; flex-direction: column; gap: 12px;
+        max-width: 780px; width: 100%; margin: 0 auto; padding: 52px 24px 26px;
+        background: linear-gradient(180deg, var(--tint, transparent), transparent 45%); }
+      .ftop { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .fnum { font-size: var(--t-cap); color: var(--dim); font-variant-numeric: tabular-nums; }
+      .fbucket { font-size: var(--t-cap); color: var(--accent, #2563eb); font-weight: 600;
+        text-decoration: none;
+        border: 1px solid currentColor; border-radius: var(--r-pill); padding: 2px 10px; opacity: .85; }
+      .ftitle { margin: 10px 0 0; font-size: var(--t-xl); line-height: var(--lh-tight); letter-spacing: .2px; }
+      .ftitle a { color: var(--fg); text-decoration: none; }
+      .fco { margin: 0; font-size: var(--t-md); color: var(--fg); font-weight: 600; }
+      .ftags { display: flex; flex-wrap: wrap; gap: 6px; }
+      /* ⚠️ 这些是"事实"不是入口（城市/经验/学历/挂了多久）——刷片时能点的只有上面那排技能。
+         不给底色，免得又变成"看着能点、点了没反应"。「近一周新增」是状态徽标，照旧给底色。 */
+      .ftags span { font-size: var(--t-cap); color: var(--dim); }
+      .ftags .fnew { color: #b45309; background: #b4530914; font-weight: 600;
+        border-radius: var(--r-pill); padding: 2px 10px; }
+      .fsum { margin: 6px 0 0; font-size: var(--t-md); line-height: var(--lh-loose); color: var(--dim);
+        display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+      /* 动作区永远落在拇指区（贴底），中间留白由 flex 撑开 */
+      .facts { margin-top: auto; display: flex; gap: 10px; }
+      .fbtn-primary, .fbton { flex: 1 1 0; text-align: center; padding: 15px 16px;
+        border-radius: var(--r-md); text-decoration: none; font-size: var(--t-md); font-weight: 600;
+        border: 0; cursor: pointer; font-family: inherit; }
+      .fbtn-primary { background: var(--accent, #2563eb); color: #fff; }
+      .fbton { background: transparent; color: var(--fg); border: 1px solid var(--line);
+        display: inline-block; }
+      .fheart { flex: 0 0 auto; padding: 15px 18px; border-radius: var(--r-md); font-size: var(--t-md);
+        font-family: inherit; cursor: pointer; background: transparent; color: var(--fg);
+        border: 1px solid var(--line); white-space: nowrap; }
+      .fheart.on { background: #15803d; color: #fff; border-color: #15803d; }
+      .fmeta { margin: 2px 0 0; }
+      .fmeta a.dim { color: var(--dim); text-decoration: none; }
+      .fend .fpane { justify-content: center; }
+      /* 悬浮控件：回列表 + 滑到第几张 */
+      .ffloat { position: fixed; z-index: 5; top: 12px; font-size: var(--t-cap);
+        background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-pill);
+        padding: 6px 12px; color: var(--dim); text-decoration: none; }
+      .fback { left: 12px; }
+      .fcount { right: 12px; font-variant-numeric: tabular-nums; }
+      .fcount b { color: var(--fg); }
+      .fflash { position: fixed; z-index: 9; left: 50%; bottom: 90px;
+        transform: translateX(-50%) translateY(8px); opacity: 0;
+        transition: opacity .18s, transform .18s; background: #16181dee; color: #fff;
+        font-size: var(--t-sm); padding: 10px 16px; border-radius: var(--r-pill); pointer-events: none; }
+      .fflash.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+      /* Slogan：只在首页与登录页各一行，克制使用 */
+      .slogan { margin: 2px 0 0; font-size: var(--t-sm); color: #2563eb; font-weight: 600;
+        letter-spacing: .5px; }
+      /* ── 字标分色：Job 红 / 720 橙 ──
+         全站**唯一来源**：站脚、导航都挂这两个 class。og 图（docs/logo/og.html）
+         与组合标（mklogo.py）必须用同一组色值，改这里就要一起改，否则对外物料会分叉。 */
+      .wjob { color: #dc2626; }
+      .w720 { color: #f97316; }
+      /* ── 站脚（品牌 / Slogan / 版权 / 备案）── */
+      .sitefoot { max-width: 780px; margin: 0 auto; padding: 26px 16px 40px;
+        border-top: 1px solid var(--line); margin-top: 34px; text-align: center; }
+      /* ⚠️ 手机端要给底部固定 Tab Bar 让位 —— 站脚是「页面内容块」的**兄弟**
+         （root 布局里 footer 渲染在所有页面内容之后），所以 `.wrap` 那条
+         `padding-bottom: 86px` 管不到它：实测（390×844，滚到底）`.flegal` 那一行
+         被 tab bar 压住 **24px**，而那一行里有 **ICP 备案号与公安备案号** ——
+         「底部可见 + 回链」是合规要求，挡住就是不合规（版本号也在这一行）。
+         ⚠️ 这条必须写在 `.sitefoot` 定义**之后**：同特异性下靠后者生效。 */
+      @media (max-width: 640px) {
+        .sitefoot { padding-bottom: 86px; }
+      }
+      /* ── 站脚宽度必须**跟着内容走**（2026-09-22）─────────────────────────
+         站脚一直写死 780，而内容容器在宽屏下是 1180/1360 —— 于是每一页的
+         页脚都比正文窄一大截、上下两条边不对齐。这是"不同页面格式不统一"
+         的最后一块：实测（1680 宽）所有页面容器都已是 1360，**只有页脚是 780**。
+         ⚠️ 同样必须写在 `.sitefoot` 定义之后（同特异性靠后者生效）。 */
+      /* 与 `.wrap` 用**完全同一条**（阈值、公式都一致），否则两者会在中间宽度上错开、下边就歪了 */
+      @media (min-width: 900px) {
+        .sitefoot { max-width: min(1360px, 88vw); }
+      }
+      .sitefoot .flogo { display: block; margin: 0 auto 10px; }
+      .sitefoot .fbrand { margin: 0 0 4px; font-size: var(--t-md); font-weight: 700; letter-spacing: .4px; }
+      .sitefoot .fsub { margin: 0 0 12px; font-size: var(--t-cap); color: var(--dim); }
+      .sitefoot .flinks { margin: 0 0 10px; font-size: var(--t-cap); }
+      /* ⚠️ 中文标签必须 nowrap：手机宽度下这些行会换行，而中文是**逐字**断的，
+         标签会被拆成"上一行三个字、下一行一个字"。分隔符照旧可以断行。 */
+      .sitefoot .flinks a { color: var(--dim); text-decoration: none; white-space: nowrap; }
+      .sitefoot .flinks a:hover { color: #2563eb; }
+      .sitefoot .fnote { margin: 0 auto 10px; max-width: 620px; font-size: var(--t-cap);
+        line-height: var(--lh-loose); color: var(--dim); }
+      .sitefoot .fnote b { color: var(--fg); }
+      .sitefoot .flegal { margin: 0; font-size: var(--t-cap); color: var(--dim); }
+      .sitefoot .flegal a { color: var(--dim); text-decoration: none; white-space: nowrap; }
+      .sitefoot .flegal a:hover { color: #2563eb; }
+      /* 公安备案：官方图标 + 号 + 回链（图标要跟文字基线对齐） */
+      .sitefoot .flegal a.gongan { display: inline-flex; align-items: center; gap: 4px; }
+      .sitefoot .flegal a.gongan img { display: inline-block; vertical-align: -3px; }
+      /* 顶部那一行的品牌字标 */
+      .sitebar .brand { display: flex; align-items: center; gap: 6px; font-size: var(--t-md);
+        font-weight: 700; color: var(--fg); text-decoration: none; margin-right: 8px; }
+      .sitebar .brand .blogo { flex: 0 0 auto; display: block; }
+      .sitebar .brand .btxt { display: flex; flex-direction: column; gap: 1px;
+        line-height: var(--lh-tight); letter-spacing: .3px; }
+      .sitebar .brand .bnote { font-size: var(--t-cap); font-weight: 500; color: var(--dim);
+        letter-spacing: 0; white-space: nowrap; }
+      /* 窄屏只留字标：标语挤在导航里会把"岗位/热度/我的"顶掉一行 */
+      @media (max-width: 560px) { .sitebar .brand .bnote { display: none; } }
+      /* 顶部那条一闪而过的提示（put_flash 渲染出来的那句话） */
+      .flashbar { padding: 10px 16px; font-size: var(--t-sm); text-align: center;
+        border-bottom: 1px solid var(--line); }
+      .flashbar.info { background: #15803d14; color: #15803d; }
+      .flashbar.error { background: #b91c1c14; color: #b91c1c; }
+      /* ── 后台 · 访问统计（/admin/traffic）──
+         曲线是服务端出的 SVG（全站零 JS）。窄屏**横向滚动而不是缩放**：
+         760 宽的 viewBox 压进 390 会把轴上的日期缩成 6px，滚比糊好
+         （与企业卡片那处逐日柱同一个取舍）。 */
+      .cols.traffic { grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); }
+      .cols.traffic li { align-items: center; text-align: center; }
+      /* 数字用 <b> 不用 <a>：这个数点不动，就不该长得像能点 */
+      .cols.traffic li > b { font-size: var(--t-lg); font-weight: 700; color: var(--fg); }
+      .legend { margin: 10px 0 0; display: flex; flex-wrap: wrap; align-items: baseline;
+        gap: 14px; font-size: var(--t-cap); color: var(--dim); }
+      .legend .dim { flex: 1 1 100%; }
+      .lg { display: inline-flex; align-items: center; gap: 6px; }
+      .lg::before { content: ""; width: 14px; height: 3px; border-radius: 2px; background: currentColor; }
+      .lg-pv { color: #2563eb; }
+      .lg-uv { color: #15803d; }
+      .chartwrap { margin: 8px 0 0; padding: 10px 12px 2px; border: 1px solid var(--line);
+        border-radius: var(--r-md); overflow-x: auto; }
+      /* min-width 卡在 680：桌面端（可用宽 ~722）不触发滚动，手机端触发。
+         这个值同时决定了**最小缩放比** 680/760≈0.9 —— 轴上的 14px 缩完还有 12.5px，
+         再小就看不清了，所以字号和这个宽度是一起定的。 */
+      .chart { display: block; width: 100%; min-width: 680px; height: auto; }
+      .chart .cgrid { stroke: var(--line); stroke-width: 1; }
+      .chart .cbase { stroke: var(--dim); stroke-width: 1; opacity: .45; }
+      .chart .carea { fill: #2563eb1f; }
+      .chart .cline { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+      .chart .cline-pv { stroke: #2563eb; }
+      .chart .cline-uv { stroke: #15803d; }
+      .chart .cdot { fill: #15803d; }
+      .chart .cpeak, .chart .ctick { font-size: 14px; fill: var(--dim); font-family: inherit; }
+      .chart .cpeak { fill: var(--fg-2); font-weight: 700; }
+      /* ── 访问统计扩维（2026-09-21）新增的图表件 ────────────────────────────
+         类名一律 `tr-` 前缀：这一整段样式是**全站共用的**（内联在 root 布局里），
+         `.bar` / `.cell` / `.slot` 这种通用名一定会跟别的页撞车，而撞车不报错、
+         只"看着不对"，排查很贵。 */
+      .tr-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      @media (max-width: 720px) { .tr-grid2 { grid-template-columns: 1fr; } }
+      /* 并排的窄图不能再吃 .chart 那条 min-width:680 —— 会把两栏各撑出一条横向滚动条 */
+      .chart.tr-narrow { min-width: 0; }
+      .tr-lb { font-size: 12px; fill: var(--fg-2); font-family: inherit; }
+      .tr-vl { font-size: 12px; fill: var(--fg); font-weight: 600; font-family: inherit; }
+      .tr-ax { font-size: 12px; fill: var(--dim); font-family: inherit; }
+      .tr-grid { stroke: var(--line); stroke-width: 1; }
+      .tr-bar { fill: #2563eb; }
+      .tr-bar-bot { fill: #9ca3af; }
+      .tr-bar-wx { fill: #15803d; }
+      .tr-bar-mb { fill: #d97706; }
+      .tr-bar-dt { fill: #2563eb; }
+      .tr-bar-dim { fill: #c7cbd3; }
+      .lg-bot { color: #9ca3af; }
+      .lg-dt { color: #2563eb; }
+      .lg-wx { color: #15803d; }
+      .lg-mb { color: #d97706; }
+      /* 表格里的文字列要左对齐。全站那条 `.tbl td { text-align: right }` 在
+         「情报范围」那一段被二次定义、位置更靠后，对数字列是对的，但对"这一档归了哪些页"
+         这种说明列就很难读 —— 用更高特异性盖掉（不改全站那条）。 */
+      .tbl th.tr-l, .tbl td.tr-l { text-align: left; }
+      .tr-slot { border: 1px dashed var(--line); border-radius: var(--r-md);
+        padding: 12px 14px; margin: 10px 0; background: var(--chip); }
+      .tr-slot h4 { margin: 0 0 6px; font-size: var(--t-md); }
+      .tr-slot p { margin: 4px 0; font-size: var(--t-sm); color: var(--fg-2); }
+      .tr-slot .why { color: var(--dim); font-size: var(--t-cap); }
+      .tr-badge { display: inline-block; font-size: var(--t-cap); padding: 1px 7px; border-radius: var(--r-pill);
+        border: 1px solid var(--line); background: var(--chip); color: var(--dim);
+        margin-left: 6px; vertical-align: 1px; }
+      .tr-badge-red { background: #dc26261a; border-color: #dc26264d; color: #dc2626; }
+      .tr-badge-blue { background: #2563eb1a; border-color: #2563eb4d; color: #2563eb; }
+      .tr-badge-green { background: #16a34a1a; border-color: #16a34a4d; color: #16a34a; }
+      .tr-hot td { background: #dc26260f; }
+      .tbl { width: 100%; border-collapse: collapse; margin: 8px 0 0; font-size: var(--t-sm); }
+      .tbl th { text-align: right; font-weight: 500; color: var(--dim); font-size: var(--t-cap);
+        padding: 8px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+      .tbl th:first-child, .tbl td:first-child { text-align: left; }
+      .tbl td { text-align: right; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+      .tbl td.n { font-weight: 600; font-variant-numeric: tabular-nums; }
+      .tbl td.d { color: var(--dim); font-weight: 400; }
+      .tbl tr.zero td { color: var(--dim); font-weight: 400; }
+      /* 表头里那行小单位（次/个）：跟数字一样不能省 —— 少了它 289 会被读成"289 台机器" */
+      .tbl .thu { font-size: 10px; font-weight: 400; opacity: .75; }
+      /* ⚠️ 上面这份 .tbl 是**为数字表定的**：默认右对齐，只把第一列设成左对齐。
+         文本为主的表（公司名/邮箱/地址）套它会全被推到右边、读起来很别扭。
+         所以下面给这类表一个**自己作用域**的覆盖 —— 只改带 .contacts 的那张，
+         不动上面那条（别的页还在用它的右对齐）。
+         类名是 `tbl contacts`；数字列自己带 .num。 */
+      .tbl.contacts th, .tbl.contacts td { text-align: left; }
+      .tbl.contacts td.num { text-align: right; white-space: nowrap; }
+      .tbl.contacts td.addr { color: var(--dim); font-size: var(--t-cap); line-height: var(--lh-base); }
+      /* 公司列给个宽度下限：不给的话表格会把宽度分给邮箱/官网那些"不好折行"的列，
+         公司名被压成两行、地址挤到四行（实测过）。 */
+      .tbl.contacts th:nth-child(2) { width: 24%; }
+
+      /* ── 联系信息名单（/admin/contacts，销售侧）────────────────────────
+         类名一律 `ct-` 前缀，理由同上面的 obs-：样式内联在 root 布局里、全站共用。
+         ⚠️ 别用 `.pill` / `.pages` / `.card` 这类通用名 —— `.card` 已经撞过一次（见上）。 */
+      /* 9 列的表天然要 ~1500px。默认 .wrap 是 780、.wrap.wide 是 1080，
+         在 1080 里这张表只能横向滚 —— 用户看不到右边那几列（实测）。
+         给这一页单独放宽；小屏仍由 .cmpscroll 兜底横向滚。 */
+      .wrap.ct-wide { max-width: 1640px; }
+      /* 批量条：无 JS 时常显在表格上方（表单原生就能提交）；有 JS 时浮到底部、只在勾了东西时出现 */
+      .ct-bulk { display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+        margin: 0 0 10px; padding: 6px 8px; border: 1px solid var(--line);
+        border-radius: var(--r-md); background: var(--chip); }
+      .ct-bulk b { font-size: var(--t-sm); color: var(--fg); font-variant-numeric: tabular-nums; }
+      .ct-bulk-js { position: fixed; left: 50%; bottom: 18px; z-index: 40; margin: 0;
+        transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+        background: var(--bg); box-shadow: 0 10px 30px #00000024; transition: .15s; }
+      .ct-bulk-js.on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+      .ct-copy { margin-left: 6px; border: 1px solid var(--line); background: var(--bg);
+        border-radius: var(--r-sm); font-size: var(--t-cap); padding: 1px 6px; cursor: pointer; color: var(--dim); }
+      .ct-copy:hover { color: #2563eb; border-color: #2563eb59; }
+      .ct-flash { position: fixed; left: 50%; bottom: 78px; transform: translateX(-50%);
+        background: #111827; color: #fff; padding: 7px 14px; border-radius: var(--r-pill);
+        font-size: var(--t-sm); z-index: 60; }
+      .ct-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0 8px; }
+      .ct-bar input[type=search], .ct-bar input[type=text] { height: 32px; padding: 0 10px;
+        border: 1px solid var(--line); border-radius: var(--r-md); background: var(--bg); min-width: 220px; }
+      .ct-bar select { height: 32px; border: 1px solid var(--line); border-radius: var(--r-md);
+        background: var(--bg); padding: 0 8px; }
+      .ct-chk { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px;
+        border: 1px solid var(--line); border-radius: var(--r-md); font-size: var(--t-sm); cursor: pointer; }
+      .ct-pages { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 12px 0 0; }
+      .ct-pill { display: inline-block; padding: 1px 8px; border-radius: 99px;
+        font-size: var(--t-cap); white-space: nowrap; border: 1px solid transparent; }
+      .ct-todo { background: var(--chip, #f1f3f5); color: var(--dim); border-color: var(--line); }
+      .ct-done { background: #15803d14; color: #15803d; border-color: #15803d33; }
+      .ct-ref { background: #b4231814; color: #b42318; border-color: #b4231833; }
+      .ct-idx { color: var(--dim); font-size: var(--t-cap); font-variant-numeric: tabular-nums; }
+      .ct-addr { color: var(--dim); font-size: var(--t-cap); line-height: var(--lh-base); }
+      .ct-mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: var(--t-sm); white-space: nowrap; }
+      /* 简介全文：**不截断**，但给个最大高度滚 —— 有的公司简介上千字，
+         整段铺开会把下面所有内容顶到很远。 */
+      .ct-prose { font-size: var(--t-md); line-height: var(--lh-loose); color: var(--fg-2, var(--fg));
+        max-height: 420px; overflow: auto; white-space: pre-wrap; }
+      .tbl.contacts td { vertical-align: top; }
+      .tlist { list-style: none; margin: 8px 0 0; padding: 0; }
+      .tlist li { display: flex; align-items: baseline; gap: 10px; padding: 9px 4px;
+        border-bottom: 1px solid var(--line); }
+      .tlist li:first-child { border-top: 1px solid var(--line); }
+      .tlist .tname { flex: 1 1 auto; min-width: 0; font-size: var(--t-md); }
+      .tlist .tsub { margin-left: 6px; color: var(--dim); font-size: var(--t-cap);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .tlist .tn { flex: 0 0 auto; color: #2563eb; font-weight: 700; font-size: var(--t-sm);
+        font-variant-numeric: tabular-nums; }
+      .tlist .tn em { margin-left: 4px; color: var(--dim); font-weight: 400;
+        font-style: normal; font-size: var(--t-cap); }
+      /* ── 关于页（/about）── */
+      /* 开头两段是"要读的正文"：比正文档大一点、行高松一点，与下面的清单拉开层次 */
+      .blead { margin: 0 0 12px; font-size: var(--t-md); line-height: var(--lh-loose); }
+      .blead b { font-weight: 700; }
+      /* 「我们不做什么」：陈述句列表，不需要序号也不需要可点感 —— 所以不给 .tlist 的行线 */
+      .nolist { list-style: none; margin: 8px 0 0; padding: 0; }
+      .nolist li { padding: 8px 0 8px 18px; position: relative; font-size: var(--t-md);
+        line-height: var(--lh-base); border-bottom: 1px solid var(--line); }
+      .nolist li:first-child { border-top: 1px solid var(--line); }
+      /* 用「—」而不是「•」：这几条是"我们不做"，破折号读起来是排除，圆点像并列 */
+      .nolist li::before { content: "—"; position: absolute; left: 0; color: var(--dim); }
+      .nolist li b { font-weight: 600; }
+      /* ── 岗位观察（/observe，站内文章区）────────────────────────────────
+         类名一律 `obs-` 前缀，理由同运行台：样式内联在 root 布局里、全站共用。
+         ⚠️ 空态那个面板**不能**叫 `.card` —— 它已经被沉浸卡片占了
+         （`.card { position: absolute; ... }`，套上去整块会脱离文档流、看不见）。
+         颜色/字号/圆角全部复用上面的 token，不新造刻度。 */
+      /* 一栏文章首先是"读的"：正文比列表宽松一档，行宽仍由 .wrap 的 780px 管 */
+      .obs-art { margin-top: 4px; }
+      .obs-art h1 { font-size: var(--t-xl); line-height: var(--lh-tight); margin: 0 0 10px; }
+      /* 顶部那枚回栏目的"面包屑头"：小、灰、单独占一行，不与正文抢 */
+      .obs-kicker { margin: 0 0 10px; font-size: var(--t-cap); letter-spacing: .5px; }
+      .obs-kicker a { color: var(--dim); text-decoration: none; }
+      .obs-kicker a:hover { color: #2563eb; }
+      /* 导语（可点回话题列表，所以整段是个链接）：不给下划线，靠字号把它当正文首段 */
+      .obs-lead { margin: 18px 0 0; font-size: var(--t-lg); line-height: var(--lh-loose); }
+      .obs-lead a { color: var(--fg); text-decoration: none; }
+      .obs-lead a:hover { color: #2563eb; }
+      /* 三个数一块：窄屏两行、宽屏一行，绝不横向挤压（导航竖排那次事故的成因就是压缩） */
+      .obs-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 10px; margin: 18px 0 0; }
+      .obs-stat { display: block; padding: 14px 12px; border: 1px solid var(--line);
+        border-radius: var(--r-md); background: var(--chip); text-decoration: none; }
+      .obs-stat b { display: block; font-size: var(--t-xl); line-height: 1.2; color: var(--fg); }
+      .obs-stat span { display: block; margin-top: 4px; font-size: var(--t-cap); color: var(--dim); }
+      .obs-stat:hover { border-color: #2563eb; }
+      .obs-stat:hover b { color: #2563eb; }
+      /* 分条事实：每条要能被单独摘走，所以行距给足、圆点留在原位（不加自定义符号） */
+      .obs-bullets { margin: 16px 0 0; padding-left: 20px; }
+      .obs-bullets li { margin: 0 0 10px; font-size: var(--t-md); line-height: var(--lh-loose); }
+      .obs-bullets li a { color: var(--fg); text-decoration: none; }
+      .obs-bullets li a:hover { color: #2563eb; text-decoration: underline; }
+      /* 说理那段：与事实块之间留一口气，读者要知道"下面这句不是数" */
+      .obs-ctx { margin: 18px 0 0; font-size: var(--t-md); line-height: var(--lh-loose); }
+      /* 读数边界：这是口径，不是正文，所以压成灰底面板、字号降一档 */
+      .obs-cv { margin: 26px 0 0; padding: 14px 16px; border: 1px solid var(--line);
+        border-radius: var(--r-md); background: var(--chip); }
+      .obs-cv .h2 { margin: 0 0 8px; font-size: var(--t-sm); color: var(--dim); font-weight: 600; }
+      .obs-cv ul { margin: 0; padding-left: 18px; color: var(--dim); line-height: var(--lh-base); }
+      .obs-cv li { margin: 0 0 6px; }
+      /* 品牌段：口号是给"读完了的人"看的，所以与正文之间有分隔线，但不做成广告位 */
+      .obs-about { margin: 28px 0 0; padding-top: 16px; border-top: 1px solid var(--line); }
+      .obs-brand { font-size: var(--t-md); font-weight: 700; color: var(--fg); text-decoration: none; }
+      .obs-slogan { margin: 4px 0 6px; font-size: var(--t-md); }
+      /* 出口：这一批全是站内地址（⛔不给第三方招聘平台做跳转），所以做成一排小按钮 */
+      .obs-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; }
+      .obs-links a { padding: 8px 12px; border: 1px solid var(--line); border-radius: var(--r-sm);
+        background: var(--bg); color: var(--fg); text-decoration: none; font-size: var(--t-sm); }
+      .obs-links a:hover { border-color: #2563eb; color: #2563eb; }
+      /* 栏目口径行：这一句里的数是**活的**，与正文那些快照数两种身份，
+         所以给它独立的版式（灰底上的一条），别混进正文让读者以为也是那天的数 */
+      .obs-live { margin: 22px 0 0; padding: 12px 14px; border-left: 3px solid #2563eb;
+        background: var(--chip); border-radius: 0 var(--r-sm) var(--r-sm) 0;
+        font-size: var(--t-sm); line-height: var(--lh-base); color: var(--dim); }
+      .obs-live b { color: #2563eb; font-size: var(--t-md); }
+      /* 落款与导流件：**只在发到我们域名之外的那一份**里出现（`standalone.html.heex`）——
+         站内单篇旁边已经有导航与页脚，再来一块是重复的。
+         左边一枚直达码、右边一句白话 + 一行可复制的命令；窄屏上码与字上下叠。 */
+      .obs-foot { margin: 26px 0 8px; padding-top: 16px; border-top: 1px solid var(--line);
+        display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+      .obs-foot img { flex: none; border: 1px solid var(--line); border-radius: var(--r-sm); background: #fff; }
+      .obs-foot p { margin: 0; max-width: 560px; }
+      /* 命令是一个整体，断成两行就没法照抄了（同 AGENTS 那条中文不许逐字断的道理） */
+      .obs-foot code { white-space: nowrap; }
+      /* 栏目列表：一行一篇。⚠️ `<b>` 在这里出现是测试判据（活数那格），别改类名 */
+      .obs-list { list-style: none; margin: 18px 0 0; padding: 0; }
+      .obs-row { padding: 16px 0; border-bottom: 1px solid var(--line); }
+      .obs-row:first-child { border-top: 1px solid var(--line); }
+      .obs-title { display: block; font-size: var(--t-lg); font-weight: 600; line-height: var(--lh-base);
+        color: var(--fg); text-decoration: none; }
+      .obs-title:hover { color: #2563eb; }
+      .obs-digest { margin: 6px 0 0; font-size: var(--t-md); line-height: var(--lh-base); }
+      .obs-date { margin: 6px 0 0; font-size: var(--t-cap); color: var(--dim); }
+      /* 空态面板：一篇都还没有时，这一屏就是这一区对外的全部说明，得像个内容页 */
+      .obs-panel { margin-top: 18px; padding: 18px 16px; border: 1px solid var(--line);
+        border-radius: var(--r-md); background: var(--chip); }
+      /* ── 运行台（/admin，2026-09-19 改版）──────────────────────────────
+         类名一律 `rt-` 前缀：这一页的样式是全站共用的（内联在 root 布局里），
+         用 .status / .bar / .chip 这种通用名会跟首页、列表页的既有类撞车
+         （撞车不会报错，只会"看着不对"，排查很贵）。
+         颜色/字号/圆角全部复用上面的 token，不新造刻度。 */
+      /* ⚠️ 这里原本有一条 `.wrap.wide { max-width: 1080px; }`，它是当时为运行台加的，
+         但和上面 `@media (min-width:1024px)` 里的 1180 同特异性、位置更靠后 ⇒ **一直生效的是 1080**，
+         等于全站的宽屏首页/后台都被悄悄压窄了 100px（2026-09-22 发现并删除）。
+         宽屏宽度现在只有一处定义（那个媒体查询），要调就调那里。 */
+
+      .rt-status { border: 1px solid var(--line); border-left-width: 6px; border-radius: var(--r-md);
+        padding: 14px 16px; margin: 14px 0 0; }
+      .rt-status.rt-idle { border-left-color: var(--dim); }
+      .rt-status.rt-running { border-left-color: #16a34a; }
+      .rt-status.rt-stale { border-left-color: #dc2626; background: rgba(220,38,38,.05); }
+      .rt-big { font-size: var(--t-lg); font-weight: 600; line-height: var(--lh-tight);
+        display: flex; align-items: center; gap: 10px; }
+      .rt-sub { color: var(--dim); font-size: var(--t-sm); margin-top: 6px; word-break: break-word; }
+
+      .rt-dot { width: 11px; height: 11px; border-radius: 50%; background: #d1d5db;
+        display: inline-block; flex: none; }
+      .rt-dot.rt-g { background: #16a34a; } .rt-dot.rt-y { background: #d97706; }
+      .rt-dot.rt-r { background: #dc2626; } .rt-dot.rt-b { background: #2563eb; }
+      .rt-running .rt-dot { animation: rtpulse 1.8s ease-out infinite; }
+      @keyframes rtpulse { 0% { box-shadow: 0 0 0 0 rgba(22,163,74,.45); }
+        100% { box-shadow: 0 0 0 10px rgba(22,163,74,0); } }
+
+      .rt-tl { display: flex; flex-wrap: wrap; gap: 8px; }
+      .rt-node { flex: 1 1 200px; border: 1px solid var(--line); border-radius: var(--r-md);
+        padding: 10px 12px; }
+      .rt-node.rt-ok { border-color: #16a34a; }
+      .rt-node.rt-miss { border-color: #dc2626; }
+      .rt-node.rt-miss .rt-v { color: #dc2626; }
+      .rt-k { font-size: var(--t-cap); color: var(--dim); }
+      .rt-v { font-size: var(--t-md); font-weight: 600; margin-top: 2px; }
+      .rt-d { font-size: var(--t-cap); color: var(--dim); margin-top: 4px; }
+
+      .rt-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+      .rt-kpi { border: 1px solid var(--line); border-radius: var(--r-md); padding: 12px 14px; }
+      /* 24px 是刻度外的值（最大档 --t-xl 是 22）—— 后台 KPI 数字没有理由比全站最大字号还大 */
+      .rt-n { font-size: var(--t-xl); font-weight: 600; line-height: var(--lh-tight);
+        font-variant-numeric: tabular-nums; }
+      .rt-l { color: var(--dim); font-size: var(--t-cap); margin-top: 2px; }
+      .rt-x { color: var(--dim); font-size: var(--t-cap); margin-top: 2px; }
+
+      .rt-search { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+      /* 输入框吃掉剩余宽度、按钮保持自身宽度 —— 不加这两条，flex 会把按钮拉成一整行 */
+      .rt-search .rt-input { flex: 1 1 240px; }
+      .rt-search .btn2, .rt-search a { flex: 0 0 auto; }
+      .rt-input { font: inherit; font-size: var(--t-sm); padding: 7px 12px;
+        border-radius: var(--r-pill); border: 1px solid var(--line); background: var(--bg);
+        color: var(--fg); min-width: 240px; }
+
+      .rt-grp { border: 1px solid var(--line); border-radius: var(--r-md); margin: 8px 0;
+        overflow: hidden; }
+      .rt-grp > summary { list-style: none; cursor: pointer; padding: 11px 14px;
+        display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--chip); }
+      .rt-grp > summary::-webkit-details-marker { display: none; }
+      .rt-grp.rt-bad > summary { background: linear-gradient(90deg, rgba(220,38,38,.10), transparent 70%); }
+      .rt-cname { font-weight: 600; font-size: var(--t-md); }
+      .rt-cnum { font-size: var(--t-cap); color: var(--dim); font-variant-numeric: tabular-nums; }
+      .rt-arrow { margin-left: auto; color: var(--dim); font-size: var(--t-cap); }
+      .rt-grp[open] .rt-arrow::after { content: "收起 ▴"; }
+      .rt-grp:not([open]) .rt-arrow::after { content: "展开 ▾"; }
+      .rt-inner { padding: 4px 14px 12px; overflow-x: auto; }
+
+      .rt-mark { display: inline-block; padding: 1px 7px; border-radius: var(--r-pill);
+        font-size: var(--t-cap); white-space: nowrap; margin-left: 4px; }
+      .rt-mark.rt-g { background: rgba(22,163,74,.14); color: #16a34a; }
+      .rt-mark.rt-y { background: rgba(217,119,6,.16); color: #d97706; }
+      .rt-mark.rt-r { background: rgba(220,38,38,.14); color: #dc2626; }
+      .rt-mark.rt-b { background: rgba(37,99,235,.14); color: #2563eb; }
+      .rt-mark.rt-n { background: var(--chip); color: var(--dim); }
+
+      .rt-seg td { background: var(--chip); color: var(--dim); font-size: var(--t-cap);
+        font-weight: 600; padding: 4px 8px; }
+      .rt-hidden { background: linear-gradient(90deg, rgba(37,99,235,.07), transparent 60%); }
+      .rt-gone { color: var(--dim); }
+      .rt-stale { color: #d97706; font-weight: 600; }
+      /* ⚠️ 站内 `.tbl` 被定义了两套（另一套在「情报范围」那段，是**右对齐**的，
+         且它在后面 → 全局生效）。这里显式声明本表左对齐，别去改那套（会影响别的页） */
+      .rt-tbl { min-width: 760px; }
+      .rt-tbl th, .rt-tbl td { text-align: left; }
+      .rt-tbl th.n, .rt-tbl td.n { text-align: right; }
+      .rt-legend { display: grid; grid-template-columns: 180px 1fr; gap: 6px 14px;
+        font-size: var(--t-sm); margin: 10px 0 0; }
+      .rt-legend dt { color: var(--fg); } .rt-legend dd { margin: 0; color: var(--dim); }
+      .rt-doc { margin: 14px 0; }
+      .rt-doc > summary { cursor: pointer; font-size: var(--t-sm); color: #2563eb; padding: 4px 0; }
+      .nowrap { white-space: nowrap; }
+
+      /* ══ 全站唯一的「卡片」形态（2026-09-22）═════════════════════════════
+         起因：用户问"整个网站不能统一用一种卡片吗？"。盘下来 root 里**20 多处**各自
+         定义过卡片，光 padding 就有 8 种取值（8/10、10/12、12/14、14/12、14/16、
+         16/16、12/16、18/16）—— 同一类东西十个人各写一遍，这就是"乱"的来源。
+
+         做法：**一处定义 + 并列选择器**。
+           * 不复制样式（复制必然漂移，这正是导航那次事故的成因）；
+           * 不动 20 个模板（改类名要横扫所有消费方，收益不抵风险）。
+         以后新加的卡片，把类名加进这个选择器列表即可 —— 别再单独写一套。
+
+         ⚠️ 这里只收**内容卡**（一张卡装一条记录）。**不是卡片、不要收进来**的：
+           `.searchnote` `.qnote` `.know` `.hidebar` `.tip`（提示条，靠底色区分语气）
+           `.picklist` `.cmpscroll` `.chartwrap`（滚动容器，padding 跟着内容走）
+           `.obs-cv`（口径说明面板，故意压成灰底小字） */
+      .jobs li, .mecards a, .deckentry, .cols li,
+      .rt-kpi, .rt-node, .rt-status, .obs-stat, .obs-panel, .team,
+      .pickbox, .foryou, .emptybox {
+        border: 1px solid var(--line); border-radius: var(--r-md);
+        background: var(--bg); padding: 16px; }
+
+      /* ── 界面原语（新页面用这些，见 components/ui.ex + AGENTS.md）─────────
+         `.uicard` / `.uisec` / `.uiempty` 与上面那串老类名**指向同一套值** ——
+         老页面不用改就统一了，新页面直接用原语，不会再各写一遍。 */
+      .uicard { border: 1px solid var(--line); border-radius: var(--r-md);
+        background: var(--bg); padding: 16px; }
+      a.uicard { display: block; text-decoration: none; color: var(--fg); }
+      a.uicard:hover { border-color: #2563eb59; }
+      .uisec { margin: 26px 0 0; }
+      .uisec > h2 { font-size: var(--t-lg); font-weight: 600; margin: 0 0 10px; }
+      .uisec-note { margin: -6px 0 10px; font-size: var(--t-sm); color: var(--dim); }
+      .uiempty { margin: 20px 0 0; padding: 16px; border: 1px solid var(--line);
+        border-radius: var(--r-md); background: var(--chip); }
+      .uiempty-t { margin: 0 0 6px; font-size: var(--t-md); font-weight: 600; }
+      .uiempty-h { margin: 0; color: var(--dim); font-size: var(--t-sm); line-height: var(--lh-base); }
+      .uiempty-h a { color: #2563eb; text-decoration: none; font-weight: 600; margin-right: 10px; }
+      /* 页面骨架里的返回行（Page.shell 的 back 属性） */
+      .backline { margin: 0 0 10px; font-size: var(--t-sm); }
+      .backline a { color: var(--dim); text-decoration: none; }
+      /* ⚠️ `.exp-list a`（探索页入口卡）与 `.ask-side`（对话侧栏）**不在这里** ——
+         它们的样式写在各页模板自己的 `<style>` 里，而模板在 body 中、比 root 靠后，
+         同特异性下 root 这条赢不了。要统一得直接改那两个模板（`.exp-list a` 已改）。 */</style>
+    <style>.jch { margin: 4px 0 0; }
+.jch-t { font-size: 15px; font-weight: 700; margin: 0 0 4px; line-height: 1.35; color: var(--fg); }
+.jch-s { font-size: 11px; color: var(--dim); margin: 0 0 10px; line-height: 1.5; }
+.jch-f { font-size: 10.5px; color: var(--dim); margin: 8px 0 0; line-height: 1.55; opacity: .85; }
+.jch-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+.jch-rows { display: flex; flex-direction: column; }
+/* 行高 44px：手机上按得准（与 .ask-row 那条 46px 同一条规矩） */
+.jch-row { display: grid; grid-template-columns: 58px 1fr 46px; align-items: center; gap: 6px;
+  min-height: 44px; text-decoration: none; color: inherit; }
+a.jch-row { cursor: pointer; }
+.jch-k { font-size: 12px; color: var(--fg); text-align: right; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap; }
+/* ⛔ 底色用 token 不写死：`/ask` 有暗色主题（`prefers-color-scheme: dark` 会把
+   --line/--dim 换一套），写死 #f1f3f6 在暗色下是一块亮斑。 */
+.jch-track { display: block; height: 14px; background: var(--line); border-radius: 4px;
+  overflow: hidden; overflow: clip; }
+.jch-bar { display: block; height: 100%; background: #c8102e; border-radius: 4px; }
+.jch-bar.jch-mute { background: var(--dim); }
+.jch-v { font-size: 12px; font-weight: 600; color: var(--dim); text-align: right;
+  font-variant-numeric: tabular-nums; }
+a.jch-row:hover .jch-bar { opacity: .82; }
+.jch-cols { display: flex; align-items: flex-end; gap: 2px; }
+.jch-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  text-decoration: none; color: inherit; min-height: 44px; }
+.jch-cwrap { position: relative; height: 142px; display: flex; align-items: flex-end;
+  justify-content: center; width: 100%; border-bottom: 1px solid var(--line); }
+.jch-cv { position: absolute; left: 0; right: 0; text-align: center; font-size: 11px;
+  font-weight: 600; color: #c8102e; font-variant-numeric: tabular-nums; line-height: 1; }
+.jch-cv.jch-vmute { color: var(--dim); }
+.jch-cbar { display: block; width: 22px; border-radius: 3px 3px 0 0; background: #c8102e; }
+.jch-cbar.jch-mute { background: var(--dim); }
+.jch-ck { font-size: 10px; color: var(--dim); white-space: nowrap; }
+a.jch-col:hover .jch-cbar { opacity: .82; }
+/* 落款：码在左、品牌在右，同一条底线上（用户 2026-09-22 定）。窄的地方自动换行。 */
+.jch-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 8px 0 0; }
+.jch-foot .jch-qrow { margin: 0; }
+.jch-foot .jch-brand { margin: 0 0 0 auto; }
+/* 品牌：**两行**（字标一行、短句+域名一行），左边那枚图形标跟两行等高居中 ——
+   用户 2026-09-22 要求它和 46px 的二维码"协调"，两行正好落在同一个高度带里。 */
+.jch-brand { display: flex; align-items: center; gap: 6px; margin: 9px 0 0;
+  font-size: 10px; color: var(--dim); line-height: 1.3; }
+.jch-bt { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.jch-mark { display: block; width: 18px; height: 18px; flex: none; }
+.jch-wm { font-size: 12px; font-weight: 800; letter-spacing: .01em; }
+.jch-wj { color: #dc2626; }
+.jch-w7 { color: #f97316; }
+.jch-slogan { font-weight: 600; color: var(--fg); }
+.jch-bl { font-size: 10px; color: var(--dim); }
+/* 「🔗 + 一句白话」：能点、悬停看得到真地址，但页面上不印那串编码 */
+.jch-lnk { color: var(--dim); text-decoration: none; }
+.jch-lnk:hover { text-decoration: underline; }
+/* 直达码那一行：码 46px（≥44 够扫也够看），右边一句"扫了会到哪" */
+.jch-qrow { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; }
+/* ⛔ 码的尺寸不是审美选的，是**实测的下限**（2026-09-22 用 Chrome 的 `BarcodeDetector`
+   在 1× 显示下逐档量，4 轮重复结果完全一致）：
+     46px ✗ · 56px ✗ · **64px ✓** · 72px ✓ · 86px ✓
+   —— 两种码（站内的 37 模块、公众号的 43 模块）门槛相同。
+   1× 屏上 46px 装 37~43 个模块只有约 1.1 像素/模块，**模块网格当场糊掉，相机再好也救不回来**。
+   原来那句"46px（≥44 够扫）"是错的：44px 是**可点区域**的规矩，不是二维码的。
+   86 = 43 的 2 倍（微信自己建议的倍数），比 64px 的临界留了一档余量。 */
+.jch-qr { display: block; width: 86px; height: 86px; border-radius: 4px; }
+.jch-qc { font-size: 10px; color: var(--dim); line-height: 1.4; }
+.jch-go { color: #0060d0; }
+.jch-xba { color: #cc6600; }
+/* 环：**图在左、文字说明在右**（用户 2026-09-22 定）。环上不写字，
+   名字与数字全在图例里 —— 所以这里没有一条引线，也就没有引线要躲的几何边界。 */
+.jch-ring { display: flex; align-items: center; gap: 18px; }
+.jch-rsvg { flex: none; width: 132px; height: 132px; display: block; }
+.jch-rh { font-size: 27px; font-weight: 700; fill: #c8102e; }
+.jch-rc { font-size: 9px; fill: var(--dim); }
+/* ⛔ 图例**按内容宽度**，不撑满：撑满时 `1fr` 那一列会把数字推到卡片最右边，
+   名字和数字之间空出一大片（用户 2026-09-22：「文字和对应的数字离得太远了」）。
+   宽度取"最宽那一行"，所有行共用同一套列宽 ⇒ 数字仍然上下对齐、又贴着名字。 */
+.jch-rlg { width: max-content; max-width: 100%; display: flex; flex-direction: column; }
+/* 行高：能点的才拉到 44px（手机上按得准），不能点的紧凑些 —— 但都挂在类名上，
+   不能挂 `a.` 上，否则 `<span>` 那些行会丢掉 grid 塌成一行。 */
+.jch-rrow { display: grid; grid-template-columns: 10px 1fr auto; align-items: center;
+  gap: 8px; min-height: 30px; text-decoration: none; color: inherit; }
+a.jch-rrow { min-height: 44px; cursor: pointer; }
+.jch-sw { display: block; width: 10px; height: 10px; border-radius: 3px; }
+.jch-lb { font-size: 12.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; }
+.jch-pc { font-size: 12px; color: var(--dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
+a.jch-rrow:hover .jch-pc { color: var(--fg); }
+/* 窄屏放不下就竖过来：环居中、图例在下面（"图在左字在右"是宽屏的排法，不是铁律） */
+@media (max-width: 480px) {
+  .jch-ring { flex-direction: column; align-items: stretch; gap: 10px; }
+  .jch-rsvg { align-self: center; }
+}
+.jch-motion .jch-bar, .jch-motion .jch-cbar { transform-origin: bottom;
+  animation: jch-grow .5s cubic-bezier(.2,.75,.3,1) both; }
+.jch-motion .jch-v, .jch-motion .jch-cv { animation: jch-fade .3s ease-out both; }
+/* 环只淡入不转圈：转了读者要等它转完才对得上图例，违反"首帧就可读" */
+.jch-motion .jch-arc, .jch-motion .jch-lb, .jch-motion .jch-pc { animation: jch-fade .35s ease-out both; }
+@keyframes jch-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes jch-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .jch-motion .jch-bar, .jch-motion .jch-cbar,
+  .jch-motion .jch-v, .jch-motion .jch-cv,
+  .jch-motion .jch-arc, .jch-motion .jch-lb, .jch-motion .jch-pc { animation: none !important; }
+}
+</style>
+    <script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","alternateName":"Job720 · 科技与制造行业的求职信息枢纽","inLanguage":"zh-CN","name":"Job720","potentialAction":{"@type":"SearchAction","query-input":"required name=search_term_string","target":{"@type":"EntryPoint","urlTemplate":"https://job720.goxba.com/?q={search_term_string}"}},"url":"https://job720.goxba.com/"},{"@context":"https://schema.org","@type":"Organization","alternateName":["Job 720","job720","Job720 求职"],"brand":"Job720","description":"科技与制造行业的求职信息枢纽","logo":"https://job720.goxba.com/favicon.svg","name":"悦影悦靓人工智能科技（惠州）有限公司","url":"https://job720.goxba.com/"},{"@context":"https://schema.org","@type":"Article","author":{"@context":"https://schema.org","@type":"Organization","alternateName":["Job 720","job720","Job720 求职"],"brand":"Job720","description":"科技与制造行业的求职信息枢纽","logo":"https://job720.goxba.com/favicon.svg","name":"悦影悦靓人工智能科技（惠州）有限公司","url":"https://job720.goxba.com/"},"dateModified":"2026-09-20T12:46:47Z","datePublished":"2026-09-20T12:46:47Z","description":"我们数了 84 家企业挂出的 884 个「BMS」在招岗，看它们落在哪 107 座城市。","headline":"107 座城市里的「BMS」岗：一共 884 个，最集中的是深圳","image":["https://job720.goxba.com/images/og.png"],"inLanguage":"zh-CN","isPartOf":{"@type":"CollectionPage","name":"岗位观察","url":"https://job720.goxba.com/observe"},"mainEntityOfPage":{"@id":"https://job720.goxba.com/observe/bms-hiring-terrain","@type":"WebPage"},"publisher":{"@context":"https://schema.org","@type":"Organization","alternateName":["Job 720","job720","Job720 求职"],"brand":"Job720","description":"科技与制造行业的求职信息枢纽","logo":"https://job720.goxba.com/favicon.svg","name":"悦影悦靓人工智能科技（惠州）有限公司","url":"https://job720.goxba.com/"},"url":"https://job720.goxba.com/observe/bms-hiring-terrain"}]</script>
+  </head>
+  <body data-phx-loc="60">
+    <div data-phx-loc="61" class="wrap wide readw">
+      <!-- @caller lib/job720_web/controllers/observation_html/standalone.html.heex:62 (job720) --><!-- <Job720Web.ObservationHTML.article> lib/job720_web/controllers/observation_html.ex:46 (job720) --><article data-phx-loc="47" class="obs-art">
+  <header data-phx-loc="48" class="head">
+    <p data-phx-loc="49" class="obs-kicker"><a data-phx-loc="49" href="https://job720.goxba.com/observe?src=gh">岗位观察</a></p>
+    <h1 data-phx-loc="50">107 座城市里的「BMS」岗：一共 884 个，最集中的是深圳</h1>
+    <p data-phx-loc="51" class="blead">我们数了 84 家企业挂出的 884 个「BMS」在招岗，看它们落在哪 107 座城市。</p>
+  </header>
+
+  
+    <!-- @caller lib/job720_web/controllers/observation_html.ex:55 (job720) --><!-- <Job720Web.ObservationHTML.block> lib/job720_web/controllers/observation_html.ex:134 (job720) -->
+    <p data-phx-loc="137" class="obs-lead"><a data-phx-loc="137" href="https://job720.goxba.com/?skill=BMS&amp;src=gh">截至 2026 年 9 月 20 日，我们库里有 884 个与「BMS」相关的在招岗位，铺在 84 家企业、107 座城市上。落点最集中的一座城是深圳，112 个，占去 13%。</a></p>
+  <!-- </Job720Web.ObservationHTML.block> -->
+  
+    <!-- @caller lib/job720_web/controllers/observation_html.ex:55 (job720) --><!-- <Job720Web.ObservationHTML.block> lib/job720_web/controllers/observation_html.ex:134 (job720) -->
+    <div data-phx-loc="139" class="obs-stats">
+      
+        <a data-phx-loc="141" class="obs-stat" href="https://job720.goxba.com/?skill=BMS&amp;src=gh">
+          <b data-phx-loc="142">884</b>
+          <span data-phx-loc="143">在招岗位</span>
+        </a>
+      
+        <a data-phx-loc="141" class="obs-stat" href="https://job720.goxba.com/?city=%E6%B7%B1%E5%9C%B3&amp;skill=BMS&amp;src=gh">
+          <b data-phx-loc="142">112</b>
+          <span data-phx-loc="143">最密的一城</span>
+        </a>
+      
+        <a data-phx-loc="141" class="obs-stat" href="https://job720.goxba.com/?skill=BMS&amp;company=chery&amp;src=gh">
+          <b data-phx-loc="142">98</b>
+          <span data-phx-loc="143">最集中的企业</span>
+        </a>
+      
+    </div>
+  <!-- </Job720Web.ObservationHTML.block> -->
+  
+    <!-- @caller lib/job720_web/controllers/observation_html.ex:55 (job720) --><!-- <Job720Web.ObservationHTML.block> lib/job720_web/controllers/observation_html.ex:134 (job720) -->
+    <ul data-phx-loc="148" class="obs-bullets">
+      
+        <li data-phx-loc="150"><a data-phx-loc="150" href="https://job720.goxba.com/?city=%E6%B7%B1%E5%9C%B3&amp;skill=BMS&amp;src=gh">112 个「BMS」岗落在深圳，是所有城市里最厚的一块。</a></li>
+      
+        <li data-phx-loc="150"><a data-phx-loc="150" href="https://job720.goxba.com/?city=%E4%B8%8A%E6%B5%B7&amp;skill=BMS&amp;src=gh">第二、第三密分别是上海与惠州，各有 98 个和 78 个。</a></li>
+      
+        <li data-phx-loc="150"><a data-phx-loc="150" href="https://job720.goxba.com/c/chery?src=gh">挂得最多的用人单位是奇瑞集团，98 个岗。</a></li>
+      
+        <li data-phx-loc="150"><a data-phx-loc="150" href="https://job720.goxba.com/?skill=BMS&amp;src=gh">写「BMS」的就有 884 个，是所有技能词里最高的一根。</a></li>
+      
+        <li data-phx-loc="150"><a data-phx-loc="150" href="https://job720.goxba.com/?func=%E7%A0%94%E5%8F%91%EF%BC%88%E6%9C%AA%E7%BB%86%E5%88%86%EF%BC%89&amp;src=gh">按职能看，「研发（未细分）」这一格最厚，121 个。</a></li>
+      
+    </ul>
+  <!-- </Job720Web.ObservationHTML.block> -->
+  
+    <!-- @caller lib/job720_web/controllers/observation_html.ex:55 (job720) --><!-- <Job720Web.ObservationHTML.block> lib/job720_web/controllers/observation_html.ex:134 (job720) -->
+    <p data-phx-loc="154" class="obs-ctx">我们只报看见的分布，不给「哪座城更好」这种判断。那个决定是你的，我们负责把数摆清楚。</p>
+  <!-- </Job720Web.ObservationHTML.block> -->
+  
+    <!-- @caller lib/job720_web/controllers/observation_html.ex:55 (job720) --><!-- <Job720Web.ObservationHTML.block> lib/job720_web/controllers/observation_html.ex:134 (job720) -->
+    <section data-phx-loc="156" class="obs-cv">
+      <h2 data-phx-loc="157" class="h2">读数边界</h2>
+      <ul data-phx-loc="158" class="small">
+        
+          <li data-phx-loc="160">样本：我们持续观测的 84 家企业，不是全市场。</li>
+        
+          <li data-phx-loc="160">口径：「在招」= 本轮仍能取到的岗位；分类口径若变更，历史数字会被重算。</li>
+        
+          <li data-phx-loc="160">新接入的企业会让数字跳变，我们把首日导入排除了，但你看到跳时要想起这一条。</li>
+        
+      </ul>
+    </section>
+  <!-- </Job720Web.ObservationHTML.block> -->
+  
+    <!-- @caller lib/job720_web/controllers/observation_html.ex:55 (job720) --><!-- <Job720Web.ObservationHTML.block> lib/job720_web/controllers/observation_html.ex:134 (job720) -->
+    <section data-phx-loc="165" class="obs-about">
+      <a data-phx-loc="166" class="obs-brand" href="https://job720.goxba.com/about?src=gh">Job720</a>
+      <p data-phx-loc="167" class="obs-slogan">找工作，不必一个人摸黑</p>
+      <p data-phx-loc="168" class="small dim">AI / 新能源 / 芯片 行业求职职业信息枢纽 · Job720 把招聘方公开发布的岗位按城市、职能、技能摊开给人看，不提供投递，也不收集简历。</p>
+    </section>
+  <!-- </Job720Web.ObservationHTML.block> -->
+  
+    <!-- @caller lib/job720_web/controllers/observation_html.ex:55 (job720) --><!-- <Job720Web.ObservationHTML.block> lib/job720_web/controllers/observation_html.ex:134 (job720) -->
+    <nav data-phx-loc="171" class="obs-links">
+      
+        <a data-phx-loc="173" href="https://job720.goxba.com/?skill=BMS&amp;src=gh">把这 884 个岗一次看完</a>
+      
+        <a data-phx-loc="173" href="https://job720.goxba.com/?city=%E6%B7%B1%E5%9C%B3&amp;skill=BMS&amp;src=gh">只看深圳的这些岗</a>
+      
+        <a data-phx-loc="173" href="https://job720.goxba.com/observe?src=gh">看栏目里的其他观察</a>
+      
+        <a data-phx-loc="173" href="https://job720.goxba.com/about?src=gh">读我们的口径怎么定</a>
+      
+    </nav>
+  <!-- </Job720Web.ObservationHTML.block> -->
+  
+
+  
+  
+</article><!-- </Job720Web.ObservationHTML.article> -->
+
+      <footer data-phx-loc="70" class="obs-foot">
+        <img data-phx-loc="71" src="https://job720.goxba.com/qr.png?p=%2Fobserve%2Fbms-hiring-terrain%3Fsrc%3Dgh&amp;s=10" alt="Job720 岗位观察直达二维码" width="96" height="96" loading="lazy">
+        <p data-phx-loc="78" class="small dim">
+          上面那些数字数的是 <b data-phx-loc="79">2026 年 9 月 20 日</b> 这一天 —— 库再涨也不会跟着动。
+          手机扫这个码，或者直接在浏览器里打开
+          <a data-phx-loc="81" href="https://job720.goxba.com/observe/bms-hiring-terrain?src=gh">job720.goxba.com/observe/bms-hiring-terrain</a>。
+          数据可以自己在命令行里复查：<code data-phx-loc="82">curl -s 'https://job720.goxba.com/api/jobs?limit=1'</code>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html><!-- </Job720Web.ObservationHTML.standalone> -->
